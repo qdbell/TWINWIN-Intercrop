@@ -1,5 +1,8 @@
 # Input data folder
 Data/
+# STICS files not needed to rerun this work
+Stics_v9.2/*
+!Stics_v9.2/TWINWIN_workspace/*
 
 
 # History files
