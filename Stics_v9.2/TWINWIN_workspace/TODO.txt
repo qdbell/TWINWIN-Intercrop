@@ -1,0 +1,2 @@
+The associated cover crops have different sowing rates, that are not currently well represented by the generic associated_intercropXX_tec.xml files. In future need to experiment with alternative sowing densities of the secondary crop, which is a little harder to manipulate directly.
+
