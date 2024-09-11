@@ -1,0 +1,1213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<usms>
+    <usm nom="bare_soil_own">
+        <datedebut>121</datedebut>
+        <datefin>273</datefin>
+        <finit>bare_soil_ini.xml</finit>
+        <nomsol>bare_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_sole19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_single_crop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_single_crop_plt.xml</fplt>
+            <ftec>barley_single_crop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_CI19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>vetch_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_TG19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>timothy_grass_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AA19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>alfalfa_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_IR19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>italian_ryegrass_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_WC19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_FA19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>fescue_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_RC19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AC19">
+        <datedebut>135</datedebut>
+        <datefin>261</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2019</fclim1>
+        <fclim2>kumpula.2019</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>associated_intercrop19_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_sole20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_single_crop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_single_crop_plt.xml</fplt>
+            <ftec>barley_single_crop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AA20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>alfalfa_plt.xml</fplt>
+            <ftec>AA_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AC20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>AC_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_IR20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>italian_ryegrass_plt.xml</fplt>
+            <ftec>IR_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_RC20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>RC_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_TG20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>timothy_grass_plt.xml</fplt>
+            <ftec>TG_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_WC20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>WC_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_FA20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>fescue_plt.xml</fplt>
+            <ftec>FA_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_CI20">
+        <datedebut>143</datedebut>
+        <datefin>255</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2020</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>vetch_plt.xml</fplt>
+            <ftec>CI_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_sole21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_single_crop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_single_crop_plt.xml</fplt>
+            <ftec>barley_single_crop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_CI21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>vetch_plt.xml</fplt>
+            <ftec>CI_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_TG21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>timothy_grass_plt.xml</fplt>
+            <ftec>TG_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AA21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>alfalfa_plt.xml</fplt>
+            <ftec>AA_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_IR21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>italian_ryegrass_plt.xml</fplt>
+            <ftec>IR_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_WC21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>WC_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_FA21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>fescue_plt.xml</fplt>
+            <ftec>FA_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_RC21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>RC_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AC21">
+        <datedebut>132</datedebut>
+        <datefin>257</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>AC_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_sole22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_single_crop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_single_crop_plt.xml</fplt>
+            <ftec>barley_single_crop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_CI22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>vetch_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_TG22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>timothy_grass_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AA22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>alfalfa_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_IR22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>italian_ryegrass_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_WC22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_FA22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>fescue_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_RC22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AC22">
+        <datedebut>138</datedebut>
+        <datefin>256</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2022</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>associated_intercrop22_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_sole20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_single_crop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_single_crop_plt.xml</fplt>
+            <ftec>barley_single_crop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AA20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>alfalfa_plt.xml</fplt>
+            <ftec>AA_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AC20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>AC_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_IR20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>italian_ryegrass_plt.xml</fplt>
+            <ftec>IR_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_RC20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>RC_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_TG20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>timothy_grass_plt.xml</fplt>
+            <ftec>TG_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_WC20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>WC_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_FA20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>fescue_plt.xml</fplt>
+            <ftec>FA_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_CI20_long">
+        <datedebut>143</datedebut>
+        <datefin>508</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2020</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>vetch_plt.xml</fplt>
+            <ftec>CI_intercrop20_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_sole21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_single_crop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_single_crop_plt.xml</fplt>
+            <ftec>barley_single_crop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>bare_soil_plt.xml</fplt>
+            <ftec>bare_soil_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_CI21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>vetch_plt.xml</fplt>
+            <ftec>CI_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_TG21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>timothy_grass_plt.xml</fplt>
+            <ftec>TG_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AA21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>alfalfa_plt.xml</fplt>
+            <ftec>AA_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_IR21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>italian_ryegrass_plt.xml</fplt>
+            <ftec>IR_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_WC21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>WC_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_FA21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>fescue_plt.xml</fplt>
+            <ftec>FA_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_RC21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2022</fclim2>
+        <culturean>2</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>RC_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+    <usm nom="Barley_AC21_long">
+        <datedebut>145</datedebut>
+        <datefin>510</datefin>
+        <finit>barley_intercrop_ini.xml</finit>
+        <nomsol>barley_soil</nomsol>
+        <fstation>kumpula_intercrop_sta.xml</fstation>
+        <fclim1>kumpula.2021</fclim1>
+        <fclim2>kumpula.2021</fclim2>
+        <culturean>1</culturean>
+        <nbplantes>2</nbplantes>
+        <codesimul>0</codesimul>
+        <plante dominance="1">
+            <fplt>barley_intercrop_plt.xml</fplt>
+            <ftec>barley_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+        <plante dominance="2">
+            <fplt>clover_crimson_plt.xml</fplt>
+            <ftec>AC_intercrop21_tec.xml</ftec>
+            <flai>null</flai>
+        </plante>
+    </usm>
+</usms>

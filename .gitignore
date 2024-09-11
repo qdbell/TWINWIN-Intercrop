@@ -1,3 +1,15 @@
+# Input data folder
+Data/
+# STICS files not needed to rerun this work
+/Stics_v9.2/*
+!/Stics_v9.2/TWINWIN_workspace
+# Ignoring 4DEnVar and linking to its own github.
+4DEnVar_engine/
+
+# Ignoring generated data and plots
+RunOutput/
+
+
 # History files
 .Rhistory
 .Rapp.history

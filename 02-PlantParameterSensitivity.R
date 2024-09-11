@@ -4,7 +4,7 @@
 # Intention: This script imports all plant parameters for a specified crop variety, removes those that we do not believe to be likely variable or make no sense to vary for our situation, and then estimates the effect on yield when increasing or decreasing these parameters individually. The latest version not only varies parameters around the default value given, but also by drawing uniformly from the range of valid values specified in the JavaSTICS documentation.
 ################################################################################
 # Honestly no idea if this is necessary, but better to set it just in case.
-setwd("~/Documents/TWINWIN/RunData")
+setwd("~/Documents/TWINWIN-Intercrop/RunOutput")
 # Load necessary package, some function calls we have chosen to specify which package they are from specifically, so could probably do that for this too.
 library(SticsOnR)
 library(SticsRFiles)
@@ -19,12 +19,17 @@ set.seed(1)
 
 ################################################################################
 # Set up paths for calling Stics and directing it to the correct folders.
-javastics <- "/home/bell/Documents/TWINWIN/Stics_v9.2"
-workspace <- "/home/bell/Documents/TWINWIN/Stics_v9.2/TWINWIN_workspace"
-output    <- "/home/bell/Documents/TWINWIN/Stics_v9.2/TWINWIN_output"
+javastics <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2"
+workspace <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_workspace"
+output    <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_output"
 # Set options for stics_wrapper, where is the data (workspace) and where to find
 # the Stics executables (from the base folder of Stics as given by javastics).
 sim_options <- stics_wrapper_options(javastics = javastics, workspace = output)
+################################################################################
+# Setting up other filepaths as needed for easy changing
+barley_default <- read.csv("/home/bell/Documents/TWINWIN-Intercrop/Data/barley_sole_default.csv", header = TRUE, )
+plot_output <- "/home/bell/Documents/TWINWIN-Intercrop/RunOutput/plots/sensitivity/2020Sensitivity/"
+
 ################################################################################
 # These horrible vectors of parameter names list all the parameters we are not varying in subcategories according to a reason why.
 discuss <- c("abscission", "cgrainv0", "coefamflax", "coefdrpmat", "coefflodrp", "coeflaxsen", "coeflevamf", "coeflevdrp", "coefmshaut", "coefsenlan", "dlaimin", "hautbase", "inngrain1", "INNimin", "masecmeta", "nbjgerlim", "nlevlim1", "nlevlim2", "propjgermin", "sea", "sensanox", "sensiphot", "tcxstop", "temax", "tgelflo10", "tgelflo90", "tigefeuil", "udlaimax", "vigueurbat", "vitprophuile", "vitpropsucre")
@@ -52,7 +57,7 @@ exclude_character <- c("stadebbchamf", "stadebbchdebdes", "stadebbchdrp", "stade
 # Parameters to exclude based on Toni's suggestions
 exclude_toni <- c("adil", "bdilmax", "alphaco2", "belong", "celong", "contrdamax", "croirac", "debsenrac", "draclong", "durvieF", "elmax", "envfruit", "h2ofeuiljaune", "h2ofeuilverte", "h2ofrvert", "h2oreserve", "h2otigestruc", "Kmabs1", "Kmabs2", "kmax", "longsperac", "lvfront", "masecNmax", "nbjgrain", "Nmeta", "Nreserve", "parazofmorte", "phobase", "phosat", "phyllotherme", "potgermi", "psisto", "psiturg", "ratiodurvie", "remobres", "sensrsec", "tcmax", "tcmin", "tdebgel", "tdmax", "tdmin", "temin", "tempdeshyd", "teopt", "teoptbis", "tgeljuv10", "tgeljuv90", "tgellev10", "tgellev90", "tgelveg10", "tgelveg90", "tgmin", "tletale", "tustressmin")
 ################################################################################
-param_ranges <- read.csv("/home/bell/Documents/TWINWIN/barley_sole_default.csv", header = TRUE, )
+param_ranges <- barley_default
 param_ranges <- param_ranges[, c(1, 4, 5)]
 colnames(param_ranges) <- c("parameter", "min", "max")
 ################################################################################
@@ -211,7 +216,7 @@ sensitivity_wide$nep[is.na(sensitivity_wide$nep)]
 # saveRDS(sensitivity_wide, "plant_parameter_sensitivity_estimates_barley_alone.RDS")
 # sensitivity_wide <- readRDS("plant_parameter_sensitivity_estimates_barley_alone.RDS")
 ################################################################################
-barley_default <- read.csv("/home/bell/Documents/TWINWIN/barley_sole_default.csv", header = TRUE, )
+
 barley_default <- barley_default[, c(1, 3)]
 names(barley_default) <- c("parameter", "default")
 barley_default <- barley_default %>%
@@ -235,12 +240,12 @@ for (name_USM in all_usms) {
     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
 
   lai_mean_plots + facet_wrap(vars(parameter), scales = "free")
-  ggsave(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/LAI_sensitivity_free_y.png"), units = "mm", width = 400, height = 220)
+  ggsave(paste0(plot_output, name_USM, "/LAI_sensitivity_free_y.png"), units = "mm", width = 400, height = 220)
   lai_mean_plots + facet_wrap(vars(parameter), scales = "free_x")
-  ggsave(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/LAI_sensitivity_fixed_y.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+  ggsave(paste0(plot_output, name_USM, "/LAI_sensitivity_fixed_y.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 
 
-  pdf(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/plot_per_page_LAI_sensitivity.pdf"))
+  pdf(paste0(plot_output, name_USM, "/plot_per_page_LAI_sensitivity.pdf"))
   print(lai_mean_plots + facet_wrap(vars(parameter), scales = "free"))
   for(i in 1 : n_pages(lai_mean_plots)){
     print(lai_mean_plots +
@@ -262,11 +267,11 @@ for (name_USM in all_usms) {
     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
     # facet_wrap(vars(parameter), scales = "free")
   yield_plots + facet_wrap(vars(parameter), scales = "free")
-  ggsave(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/yield_sensitivity_free_y.png"), units = "mm", width = 400, height = 220)
+  ggsave(paste0(plot_output, name_USM, "/yield_sensitivity_free_y.png"), units = "mm", width = 400, height = 220)
   yield_plots + facet_wrap(vars(parameter), scales = "free_x")
-  ggsave(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/yield_sensitivity_fixed_y.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+  ggsave(paste0(plot_output, name_USM, "/yield_sensitivity_fixed_y.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 
-  pdf(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/plot_per_page_yield_sensitivity.pdf"))
+  pdf(paste0(plot_output, name_USM, "/plot_per_page_yield_sensitivity.pdf"))
   print(yield_plots + facet_wrap(vars(parameter), scales = "free"))
   for(i in 1 : n_pages(yield_plots)){
     print(yield_plots +
@@ -309,11 +314,11 @@ for (name_USM in all_usms) {
   theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
     # facet_wrap(vars(parameter), scales = "free")
   nep_mean_plots + facet_wrap(vars(parameter), scales = "free")
-  ggsave(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/NEP_sensitivity_free_y.png"), units = "mm", width = 400, height = 220)
+  ggsave(paste0(plot_output, name_USM, "/NEP_sensitivity_free_y.png"), units = "mm", width = 400, height = 220)
   nep_mean_plots + facet_wrap(vars(parameter), scales = "free_x")
-  ggsave(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/NEP_sensitivity_fixed_y.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+  ggsave(paste0(plot_output, name_USM, "/NEP_sensitivity_fixed_y.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 
-  pdf(paste0("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/", name_USM, "/plot_per_page_NEP_sensitivity.pdf"))
+  pdf(paste0(plot_output, name_USM, "/plot_per_page_NEP_sensitivity.pdf"))
   print(nep_mean_plots + facet_wrap(vars(parameter), scales = "free"))
   for(i in 1 : n_pages(nep_mean_plots)){
     print(nep_mean_plots +
@@ -353,7 +358,7 @@ sensitivity_mean_nrmse %>%
   geom_point(data = filter(overall_sensitivity, parameter != "dlaimax"), aes(x = mean, y = parameter), colour = "black", shape = 4, size = 3) +
   ggtitle("Sum of Mean nRMSEs", subtitle = "x is the mean of all USMs")
 
-ggsave("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/Overall_nRMSEs.png")
+ggsave(paste0(plot_output, "Overall_nRMSEs.png"))
 
 #
 # sensitivity_mean_nrmse %>%
@@ -368,9 +373,9 @@ ggsave("/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/Overall_n
 
 print(arrange(overall_sensitivity, desc(mean)), n = 39)
 
-write.table(arrange(overall_sensitivity, desc(mean)), file = "/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/Overall_nRMSEs.csv", row.names = FALSE, quote = FALSE, sep = ",")
+write.table(arrange(overall_sensitivity, desc(mean)), file = paste0(plot_output, "Overall_nRMSEs.csv"), row.names = FALSE, quote = FALSE, sep = ",")
 
 relative_sens <- merge(sens_2020, sens_2021, by = "parameter", suffixes = c(".2020", ".2021"))
 
-write.table(arrange(relative_sens, desc(mean.2020)), file = "/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/Overall_nRMSEs_sorted_2020.csv", row.names = FALSE, quote = FALSE, sep = ",")
-write.table(arrange(relative_sens, desc(mean.2021)), file = "/home/bell/Documents/TWINWIN/plots/sensitivity/2020Sensitivity/Overall_nRMSEs_sorted_2021.csv", row.names = FALSE, quote = FALSE, sep = ",")
+write.table(arrange(relative_sens, desc(mean.2020)), file = paste0(plot_output, "Overall_nRMSEs_sorted_2020.csv"), row.names = FALSE, quote = FALSE, sep = ",")
+write.table(arrange(relative_sens, desc(mean.2021)), file = paste0(plot_output, "Overall_nRMSEs_sorted_2021.csv"), row.names = FALSE, quote = FALSE, sep = ",")

@@ -13,11 +13,11 @@ library(data.table)
 library(viridis)
 ################################################################################
 # A few core options and set ups
-setwd("~/Documents/TWINWIN/plots/Analysis")
-model_runs_dir <- "/home/bell/Documents/TWINWIN/RunData/ModelRuns/AnalysisInputs/"
+setwd("~/Documents/TWINWIN-Intercrop/RunOutput/Analysis")
+model_runs_dir <- "/home/bell/Documents/TWINWIN-Intercrop/RunOutput/ModelRuns/AnalysisInputs/"
 manuscript_dir <- "Manuscript/"
 supplement_dir <- "Manuscript/Supplementary/"
-exploration_dir <- "Exploration/"
+# exploration_dir <- "Exploration/"
 theme_set(theme_classic())
 ################################################################################
 # Functions
@@ -499,52 +499,52 @@ name <- "Barley_sole20_long"
 plot_xb <- pivot_longer(as.data.frame(general_xb), 1 : num_params_varied, names_to = "parameter")
 plot_prior_params <- params[1 : num_params_varied] %>%
   pivot_longer(everything(), names_to = "parameter")
-for (truth in c(1:20)) {
-  plot_params <- alt_truths_param_ests %>%
-    filter(truth_used == truth) %>%
-    select(-c(truth_used, num_params_varied))
-
-  plot_post_draws <- alt_truths_parameter_ens %>%
-    filter(truth_used == truth, usm == name) %>%
-    select(-c(truth_used, num_params_varied))
-
-  plot_synth_params <- synth_params_4 %>%
-    filter(truth_num == truth) %>%
-    select(-c(truth_num)) %>%
-    pivot_longer(c(adens, efcroiveg, vitircarb, INNmin), names_to = "parameter")
-
-  dist_plotted <- plot_post_draws %>%
-    filter(usm == name) %>%
-    group_by(parameter) %>%
-    ggplot(aes(x = value)) +
-    # geom_histogram(aes(x = value, fill = dist), bins = 20, position = "dodge") +
-    geom_density(aes(fill = "Posterior", colour = "Posterior"), alpha = 0.5) +
-    geom_density(data = plot_xb, aes(fill = "Prior", colour = "Prior"), alpha = 0.5) +
-    geom_vline(data = plot_params[which(plot_params$usm == name), ], aes(xintercept = value, colour = "Posterior"), alpha = 1, linetype = "solid", linewidth = 1) +
-    geom_vline(data = plot_synth_params, aes(xintercept = value, colour = "Truth", fill = "Truth"), alpha = 1, linetype = "solid", linewidth = 1) +
-    geom_vline(data = plot_prior_params, aes(xintercept = value, colour = "Prior"), alpha = 1, linetype = "solid", linewidth = 1) +
-    # stat_function(fun = dnorm, args = list(mean = prior_mean, sd = prior_mean * 0.1)) +
-    facet_wrap(~ parameter, scales = "free") +
-    scale_y_continuous(expand = expansion(mult = c(0, .1))) +
-    scale_x_continuous(expand = c(0, 0)) +
-    scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth")) +
-    scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth")) +
-    # scale_colour_viridis_d() +
-    # scale_fill_viridis_d() +
-    ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
-    labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
-    # guides(fill = guide_legend(reverse = FALSE)) +
-    theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
-  # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
-  if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
-    dist_plotted <- ggplot()
-    print(paste0("Plotting error with ", name, " truth ", truth))
-    next
-  }
-
-  dist_plotted
-  ggsave(paste0(exploration_dir, "twin_exp_ParameterDistributions_alt_truth_", truth, "_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
-}
+# for (truth in c(1:20)) {
+#   plot_params <- alt_truths_param_ests %>%
+#     filter(truth_used == truth) %>%
+#     select(-c(truth_used, num_params_varied))
+#
+#   plot_post_draws <- alt_truths_parameter_ens %>%
+#     filter(truth_used == truth, usm == name) %>%
+#     select(-c(truth_used, num_params_varied))
+#
+#   plot_synth_params <- synth_params_4 %>%
+#     filter(truth_num == truth) %>%
+#     select(-c(truth_num)) %>%
+#     pivot_longer(c(adens, efcroiveg, vitircarb, INNmin), names_to = "parameter")
+#
+#   dist_plotted <- plot_post_draws %>%
+#     filter(usm == name) %>%
+#     group_by(parameter) %>%
+#     ggplot(aes(x = value)) +
+#     # geom_histogram(aes(x = value, fill = dist), bins = 20, position = "dodge") +
+#     geom_density(aes(fill = "Posterior", colour = "Posterior"), alpha = 0.5) +
+#     geom_density(data = plot_xb, aes(fill = "Prior", colour = "Prior"), alpha = 0.5) +
+#     geom_vline(data = plot_params[which(plot_params$usm == name), ], aes(xintercept = value, colour = "Posterior"), alpha = 1, linetype = "solid", linewidth = 1) +
+#     geom_vline(data = plot_synth_params, aes(xintercept = value, colour = "Truth", fill = "Truth"), alpha = 1, linetype = "solid", linewidth = 1) +
+#     geom_vline(data = plot_prior_params, aes(xintercept = value, colour = "Prior"), alpha = 1, linetype = "solid", linewidth = 1) +
+#     # stat_function(fun = dnorm, args = list(mean = prior_mean, sd = prior_mean * 0.1)) +
+#     facet_wrap(~ parameter, scales = "free") +
+#     scale_y_continuous(expand = expansion(mult = c(0, .1))) +
+#     scale_x_continuous(expand = c(0, 0)) +
+#     scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth")) +
+#     scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth")) +
+#     # scale_colour_viridis_d() +
+#     # scale_fill_viridis_d() +
+#     ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
+#     labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
+#     # guides(fill = guide_legend(reverse = FALSE)) +
+#     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+#   # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
+#   if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
+#     dist_plotted <- ggplot()
+#     print(paste0("Plotting error with ", name, " truth ", truth))
+#     next
+#   }
+#
+#   dist_plotted
+#   ggsave(paste0(exploration_dir, "twin_exp_ParameterDistributions_alt_truth_", truth, "_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+# }
 
 truth <- 1
 plot_params <- alt_truths_param_ests %>%
@@ -711,7 +711,7 @@ ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_
 
 
 # Import observations
-obs_data <- read_csv("~/Documents/TWINWIN/obsData/TWINWINobs.csv") %>%
+obs_data <- read_csv("~/Documents/TWINWIN-Intercrop/Data/TWINWINobs.csv") %>%
   filter(crop != "TG") # TG estimates are unusable due to known bugs in STICS
 
 # Set up variables that are referred to in the loops that can allow for programmatic plotting with minimal changes
