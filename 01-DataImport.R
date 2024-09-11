@@ -9,7 +9,7 @@
 ################################################################################
 library(tidyverse)
 library(rio)
-setwd("/home/bell/Documents/TWINWIN/obsData")
+setwd("/home/bell/Documents/TWINWIN-Intercrop/Data")
 ################################################################################
 # This dictionary associates plot numbers with labels for the variety undersown
 # on that plot with barley. The first, "barley", is just for barley by itself
@@ -67,7 +67,7 @@ gai_obs <- gai_obs[, c("date", "crop", "obs", "value", "uncertainty")]
 # Read in NEE observations and convert to daily estimated values
 
 par <- import("KumpulaPAR30minAvg2019_2022.csv") # Observations of PAR averaged to half-hour blocks covering 2019-2022. # There are some missing values, which we omit immediately
-lr_bio <- import("LR_diversity.csv") # Observations and calculated values of flux-related variables from the TWINWIN sites.
+lr_bio <- import("LR_biodiversity.csv") # Observations and calculated values of flux-related variables from the TWINWIN sites.
 # Checking NAs
 # sapply(par, function(x) sum(length(which(is.na(x)))))
 # sapply(lr_bio, function(x) sum(length(which(is.na(x)))))
@@ -170,7 +170,6 @@ obs <- gai_obs %>%
 export(obs, "TWINWINobs.csv")
 ################################################################################
 # Importing climate data for use in STICS simulations.
-setwd("/home/bell/Documents/TWINWIN/obsData/climate_data")
 # Looping over the years used.
 for (year in 2019:2022) {
   # Importing csv files
