@@ -6,7 +6,7 @@ Data/
 # Ignoring 4DEnVar and linking to its own github.
 4DEnVar_engine/
 
-# Ignoring generated data files
+# Ignoring generated data and plots
 RunOutput/
 
 
