@@ -1,5 +1,5 @@
 # Testing Interactive Shiny plotting
-setwd("~/Documents/TWINWIN/RScripts/InteractivePlotting")
+setwd("~/Documents/TWINWIN-Intercrop")
 library(shiny)
 library(SticsOnR)
 library(SticsRFiles)
@@ -13,12 +13,12 @@ theme_set(theme_classic())
 # Stics Options Set Up
 ################################################################################
 # Path to the folder containing Stics and workspace/example folders.
-javastics <- "/home/bell/Documents/TWINWIN/Stics_v9.2"
+javastics <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2"
 # Path to the workspace containing our weather data and crop initialisations.
-workspace <- "/home/bell/Documents/TWINWIN/Stics_v9.2/TWINWIN_workspace"
+workspace <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_workspace"
 # Path to store simulation results in, while the previous directories must
 # exist, this may be created automatically?
-output    <- "/home/bell/Documents/TWINWIN/Stics_v9.2/TWINWIN_output"
+output    <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_output"
 # Set options for stics_wrapper, where is the data (workspace) and where to find
 # the Stics executables (from the base folder of Stics as given by javastics).
 # CORRECTION: SticsOnR states that this should be the workspace folder, but it
