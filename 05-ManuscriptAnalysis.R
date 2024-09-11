@@ -13,8 +13,8 @@ library(data.table)
 library(viridis)
 ################################################################################
 # A few core options and set ups
-setwd("~/Documents/TWINWIN/plots/Analysis")
-model_runs_dir <- "/home/bell/Documents/TWINWIN/RunData/ModelRuns/AnalysisInputs/"
+setwd("~/Documents/TWINWIN-Intercrop/RunOutput/Analysis")
+model_runs_dir <- "/home/bell/Documents/TWINWIN-Intercrop/RunOutput/ModelRuns/AnalysisInputs/"
 manuscript_dir <- "Manuscript/"
 supplement_dir <- "Manuscript/Supplementary/"
 exploration_dir <- "Exploration/"
@@ -711,7 +711,7 @@ ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_
 
 
 # Import observations
-obs_data <- read_csv("~/Documents/TWINWIN/obsData/TWINWINobs.csv") %>%
+obs_data <- read_csv("~/Documents/TWINWIN-Intercrop/Data/TWINWINobs.csv") %>%
   filter(crop != "TG") # TG estimates are unusable due to known bugs in STICS
 
 # Set up variables that are referred to in the loops that can allow for programmatic plotting with minimal changes

@@ -13,19 +13,19 @@ library(tidyverse)
 library(xfun) # Specifically for cache_rds to reduce rerunning.
 ################################################################################
 # Core options and set up
-setwd("~/Documents/TWINWIN/RunData/ModelRuns")
-dir_path <- "/home/bell/Documents/TWINWIN/RunData/ModelRuns"
-# dir_path <- "/home/bell/Documents/TWINWIN/RunData/ModelRuns/SmallCase"
+setwd("~/Documents/TWINWIN-Intercrop/RunOutput/ModelRuns")
+dir_path <- "/home/bell/Documents/TWINWIN-Intercrop/RunOutput/ModelRuns"
+fourDEnVarPath <- "/home/bell/Documents/TWINWIN-Intercrop/4DEnVar_engine/4DEnVar"
 set.seed(2)
 ################################################################################
 # Stics Options Set Up
 # Path to the folder containing Stics and workspace/example folders.
-javastics <- "/home/bell/Documents/TWINWIN/Stics_v9.2"
+javastics <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2"
 # Path to the workspace containing our weather data and crop initialisations.
-workspace <- "/home/bell/Documents/TWINWIN/Stics_v9.2/TWINWIN_workspace"
+workspace <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_workspace"
 # Path to store simulation results in, while the previous directories must
 # exist, this may be created automatically
-output    <- "/home/bell/Documents/TWINWIN/Stics_v9.2/TWINWIN_output"
+output    <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_output"
 # Set options for stics_wrapper, where is the data (workspace) and where to find
 # the Stics executables (from the base folder of Stics as given by javastics).
 # CORRECTION: SticsOnR states that this should be the workspace folder, but it
@@ -65,7 +65,7 @@ run_ensemble <- function(ensemble_size, parameter_ensemble, name_USM,
 }
 
 write_calib_files <- function(hx, y, R, hx_bar, suffix = "",
-                              dir_path = "~/Documents/TWINWIN/RunData/TwinExperiment") {
+                              dir_path = "~/Documents/TWINWIN-Intercrop/RunOutput/ModelRuns/TwinExperiment") {
   # Writing the output files that 4DEnVar needs.
   write.table(hx, paste0(dir_path, "/hx_", suffix, ".dat"),
               col.names = FALSE, row.names = FALSE, quote = FALSE, sep = " ")
@@ -399,7 +399,7 @@ for (num_params_varied in c(2:8)) {
       infix <- "Barley"
     }
     print(infix)
-    tmp <- system2(command = "/home/bell/Documents/4DEnVar/4DEnVar_engine/4DEnVar",
+    tmp <- system2(command = fourDEnVarPath,
                    args = c(paste0(dir_path, "/xb_", num_params_varied, ".dat"),
                             paste0(dir_path, "/", c("hx", "y", "R", "hx_bar"), "_", infix, "_", obs_names, "_varying_", num_params_varied, ".dat")),
                    wait = TRUE,
@@ -531,7 +531,7 @@ for (num_params_varied in c(2:8)) {
       infix <- "Barley"
     }
     print(infix)
-    tmp <- system2(command = "/home/bell/Documents/4DEnVar/4DEnVar_engine/4DEnVar",
+    tmp <- system2(command = fourDEnVarPath,
                    args = c(paste0(dir_path, "/xb_", num_params_varied, ".dat"),
                             paste0(dir_path, "/", c("hx", "y", "R", "hx_bar"), "_", infix, "_", obs_names, "_perfect_varying_", num_params_varied, ".dat")),
                    wait = TRUE,
@@ -710,7 +710,7 @@ for (i in 1 : length(extra_params)) {
       infix <- "Barley"
     }
     print(infix)
-    tmp <- system2(command = "/home/bell/Documents/4DEnVar/4DEnVar_engine/4DEnVar",
+    tmp <- system2(command = fourDEnVarPath,
                    args = c(paste0(dir_path, "/xb_fourth_", extra_params[i], ".dat"),
                             paste0(dir_path, "/", c("hx", "y", "R", "hx_bar"), "_", infix, "_", obs_names, "_fourth_", extra_params[i], ".dat")),
                    wait = TRUE,
@@ -843,7 +843,7 @@ for (num_params_varied in c(3)) {
     print(infix)
     for (ens_size in c(1000, 500, 250, 200, 100, 50)) {
     # for (ens_size in c(10, 5, 3, 2)) {
-      tmp <- system2(command = "/home/bell/Documents/4DEnVar/4DEnVar_engine/4DEnVar",
+      tmp <- system2(command = fourDEnVarPath,
                      args = c(paste0(dir_path,"/", "xb_large_", "ens_size_", ens_size, ".dat"),
                               paste0(dir_path, "/", c("hx", "y", "R", "hx_bar"), "_", infix, "_", obs_names, "_", "ens_size_", ens_size, ".dat")),
                      wait = TRUE,
@@ -934,7 +934,7 @@ for (truth_index in 1 : num_alt_truths) {
         infix <- "Barley"
       }
       print(infix)
-      tmp <- system2(command = "/home/bell/Documents/4DEnVar/4DEnVar_engine/4DEnVar",
+      tmp <- system2(command = fourDEnVarPath,
                      args = c(paste0(dir_path, "/xb_", num_params_varied, ".dat"),
                               paste0(dir_path, "/", c("hx", "y", "R", "hx_bar"), "_", infix, "_", obs_names, "_varying_", num_params_varied, "_alt_truth_", truth_index, ".dat")),
                      wait = TRUE,
@@ -975,7 +975,7 @@ saveRDS(alt_truths_parameter_estimates, file = paste0(dir_path, "/AnalysisInputs
 rm(alt_truths_parameter_ens, alt_truths_parameter_estimates, tmp_sd, tmp_analysis)
 ################################################################################
 # Import observations
-obs_data <- read_csv("~/Documents/TWINWIN/obsData/TWINWINobs.csv") %>%
+obs_data <- read_csv("~/Documents/TWINWIN-Intercrop/Data/TWINWINobs.csv") %>%
   filter(crop != "TG") # TG estimates are unusable due to known bugs in STICS
 ################################################################################
 # TWINWIN calibration
@@ -1057,7 +1057,7 @@ for (num_params_varied in c(3)) {
     }
     print(paste0("4DEnVar: ", infix))
     for (obs_names in obs_sets) {
-      tmp <- system2(command = "/home/bell/Documents/4DEnVar/4DEnVar_engine/4DEnVar",
+      tmp <- system2(command = fourDEnVarPath,
                      args = c(paste0(dir_path, "/xb_", num_params_varied, ".dat"),
                               paste0(dir_path, "/", c("hx", "y", "R", "hx_bar"), "_", infix, "_", obs_names, "_varying_", num_params_varied, ".dat")),
                      wait = TRUE,
