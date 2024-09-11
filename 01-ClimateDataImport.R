@@ -1,9 +1,12 @@
 ################################################################################
 # Title: Climate Data Import
 # Author: Quentin Bell (quentin.bell@fmi.fi)
-# Date Created: 1/3/2023
-# Last Modified: 27/4/2023
-# Intention: This script reads in the climate files (which have been renamed but otherwise not altered from the versions downloaded from the FMI open data access), then exports the data in a consistent form expected by Stics. This involves transforming all observations to daily equivalents, as well as checking the rainfall amounts across time scales. Last updated to include relative humidity as I had left that out accidentally.
+# Intention: This script reads in the climate files (which have been renamed but
+# otherwise not altered from the versions downloaded from the FMI open data
+# access), then exports the data in a consistent form expected by Stics. This
+# involves transforming all observations to daily equivalents, as well as
+# checking the rainfall amounts across time scales. Last updated to include
+# relative humidity as I had left that out accidentally.
 ################################################################################
 
 library(rio)

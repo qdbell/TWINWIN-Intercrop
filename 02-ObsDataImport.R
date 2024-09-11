@@ -1,8 +1,6 @@
 ################################################################################
 # Title: Data Import
 # Author: Quentin Bell (quentin.bell@fmi.fi)
-# Date Created: 10/1/2024
-# Last Modified: 10/1/2024
 # Intention: This script reads in the data sources used in the experiments,
 # including observations from the fields and climate data used by STICS. The
 # observations are combined into one .csv file for use in model runs and

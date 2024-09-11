@@ -1,8 +1,6 @@
 ################################################################################
 # Title: Plant Parameter Sensitivity Analysis
 # Author: Quentin Bell (quentin.bell@fmi.fi)
-# Date Created: 15/2/2023
-# Last Modified: 15/2/2024
 # Intention: This script imports all plant parameters for a specified crop variety, removes those that we do not believe to be likely variable or make no sense to vary for our situation, and then estimates the effect on yield when increasing or decreasing these parameters individually. The latest version not only varies parameters around the default value given, but also by drawing uniformly from the range of valid values specified in the JavaSTICS documentation.
 ################################################################################
 # Honestly no idea if this is necessary, but better to set it just in case.
