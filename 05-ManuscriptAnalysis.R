@@ -46,12 +46,12 @@ format_mean_sd <- function(x) {
 #     ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated, Ensemble size: ", plot_ens_size)) +
 #     labs(y = "LAI (m^2 m^-2)", x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
 #     geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.30) +
-#     geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value), size = 2) +
+#     geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value), size = 1) +
 #     geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty), width = 0.5) +
 #     geom_line(data = basic_truth[basic_truth$crop %in% plot_crops, ], aes(date, lai_n_plant_1), colour = "black", alpha = 0.5) +
 #     geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)]), linetype = "dashed") +
 #     guides(colour = guide_legend(reverse = TRUE), fill = guide_legend(reverse = TRUE), shape = guide_legend(reverse = TRUE)) +
-#     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
+#     theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'))
 #   return(plot_output)
 # }
 #
@@ -76,12 +76,12 @@ format_mean_sd <- function(x) {
 #     ggtitle(paste0("Average estimated NEE, ", plot_years, ", ", plot_usm_calib, " calibrated, Ensemble size: ", plot_ens_size)) +
 #     labs(y = "NEE (tC ha^-1 d^-1)", x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
 #     geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.30) +
-#     geom_point(data = nee_obs[nee_obs$crop %in% plot_crops, ], aes(x = date, y = value), size = 2) +
+#     geom_point(data = nee_obs[nee_obs$crop %in% plot_crops, ], aes(x = date, y = value), size = 1) +
 #     geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty), width = 0.5) +
 #     geom_hline(aes(yintercept = 0), linetype = "dashed", colour = "grey") +
 #     geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)]), linetype = "dashed") +
 #     guides(colour = guide_legend(reverse = TRUE), fill = guide_legend(reverse = TRUE), shape = guide_legend(reverse = TRUE)) +
-#     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
+#     theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'))
 #   return(plot_output)
 # }
 ################################################################################
@@ -148,7 +148,7 @@ print("Plotting Twin Experiment Distributions")
 #       ggtitle(paste0("Estimated Parameter Ensemble Distributions: ", name)) +
 #       labs(y = "Density", x = "Parameter Value", fill = "Distribution", colour = "Distribution") +
 #       # guides(fill = guide_legend(reverse = FALSE)) +
-#       theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
+#       theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'))
 #     # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
 #     if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
 #       dist_plotted <- ggplot()
@@ -193,7 +193,7 @@ print("Plotting Twin Experiment Distributions")
 #   ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
 #   labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
 #   # guides(fill = guide_legend(reverse = FALSE)) +
-#   theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+#   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 # # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
 # if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
 #   dist_plotted <- ggplot()
@@ -239,7 +239,7 @@ print("Plotting Twin Experiment Distributions")
 #     ggtitle(paste0("Estimated Parameter Ensemble Distributions: ", name)) +
 #     labs(y = "Density", x = "Parameter Value", fill = "Distribution", colour = "Distribution") +
 #     # guides(fill = guide_legend(reverse = FALSE)) +
-#     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
+#     theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'))
 #   # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
 #   if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
 #     dist_plotted <- ggplot()
@@ -355,12 +355,12 @@ for (plot_varying_params in c(3, 8)) {
     ggtitle(paste0("Average estimated barley LAI, ", plot_years)) +
     labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
     geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
-    geom_point(data = lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Truth"), size = 2) +
+    geom_point(data = lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Truth"), size = 1) +
     geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Truth"), width = 0.5) +
     geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params & between(basic_truth$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(date, lai_n_plant_1, colour = "Truth"), alpha = 1) +
     geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
     guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-    theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
     scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -370,7 +370,7 @@ for (plot_varying_params in c(3, 8)) {
 
   ggsave(filename = paste0("twin_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = supplement_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 
   nee_plot <- nee_plot_df %>%
     filter(num_params_varied == plot_varying_params) %>%
@@ -383,12 +383,12 @@ for (plot_varying_params in c(3, 8)) {
     ggtitle(paste0("Average estimated plot NEE, barley growing season ", plot_years)) +
     labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
     geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.30) +
-    geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], aes(x = date, y = value, colour = "Truth"), size = 2) +
+    geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], aes(x = date, y = value, colour = "Truth"), size = 1) +
     geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Truth"), width = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = "dashed", colour = "grey") +
     geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
     guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-    theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
     scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     scale_x_date(expand = c(0, 2), breaks = waiver(), labels = waiver())
@@ -397,7 +397,7 @@ for (plot_varying_params in c(3, 8)) {
 
   ggsave(filename = paste0("twin_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = supplement_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 rm(lai_plot_df, nee_plot_df, lai_plot, nee_plot)
@@ -534,7 +534,7 @@ plot_prior_params <- params[1 : num_params_varied] %>%
 #     ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
 #     labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
 #     # guides(fill = guide_legend(reverse = FALSE)) +
-#     theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+#     theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 #   # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
 #   if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
 #     dist_plotted <- ggplot()
@@ -581,7 +581,7 @@ dist_plotted <- plot_post_draws %>%
   ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
   labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
   # guides(fill = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
 if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
   dist_plotted <- ggplot()
@@ -590,7 +590,7 @@ if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
 }
 
 dist_plotted
-ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 400, height = 210, limitsize = FALSE)
+ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 190, height = 100, limitsize = FALSE)
 
 # tmp <- rand_params
 # tmp$truth_num <- factor(1 : nrow(tmp))
@@ -636,7 +636,7 @@ ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_par
 #     param_diff_plot
 #     ggsave(filename = paste0("ParameterDifferences_", i, "_params_varied_", plot_ens_size, "_ensemble.png"),
 #            path = results_path,
-#            units = "mm", width = 400, height = 220)
+#            units = "mm", width = 190, height = 105)
 #   }
 # }
 
@@ -701,13 +701,13 @@ dist_plotted <- obs_vary_draws %>%
   scale_fill_manual(values = viridis(10), breaks = c("Prior", "Posterior", "Truth", "laineeyield", "lainee", "laiyield", "lai", "neeyield", "nee", "yield")) +
   ggtitle("Estimated Parameter Ensemble Distributions of Sole Barley, Varying Observation Types") +
   labs(y = "Density", x = "Parameter Value", fill = "Distribution", colour = "Distribution") +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'))
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'))
 if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
   dist_plotted <- ggplot()
   print(paste0("Plotting error with ", name))
 }
 dist_plotted
-ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".png"), units = "mm", width = 190, height = 100, limitsize = FALSE)
 
 
 # Import observations
@@ -805,11 +805,11 @@ plot_prior_2020 <- general_prior %>%
 #       ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
 #       labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
 #       geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
-#       geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+#       geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
 #       geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
 #       # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
 #       guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-#       theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+#       theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
 #       scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
 #       scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
 #       # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -823,7 +823,7 @@ plot_prior_2020 <- general_prior %>%
 #
 #       ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
 #              path = paste0(exploration_dir, "ObsVary"),
-#              units = "mm", width = 400, height = 220)
+#              units = "mm", width = 190, height = 105)
 #     }
 #
 #     # NEE plot
@@ -836,12 +836,12 @@ plot_prior_2020 <- general_prior %>%
 #       ggtitle(paste0("Average estimated NEE, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
 #       labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
 #       geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.30) +
-#       geom_point(data = nee_obs[nee_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+#       geom_point(data = nee_obs[nee_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
 #       geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
 #       geom_hline(aes(yintercept = 0), linetype = "dashed", colour = "grey") +
 #       geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest"), linetype = "dashed") +
 #       guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-#       theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+#       theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
 #       scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
 #       scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
 #       scale_x_date(expand = c(0, 2), breaks = waiver(), labels = waiver())
@@ -855,7 +855,7 @@ plot_prior_2020 <- general_prior %>%
 #
 #       ggsave(filename = paste0("ObsVary_NEE_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
 #              path = paste0(exploration_dir, "ObsVary"),
-#              units = "mm", width = 400, height = 220)
+#              units = "mm", width = 190, height = 105)
 #     }
 #
 #
@@ -929,11 +929,11 @@ lai_plot <- lai_plot_df %>%
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
   geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
-  geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+  geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -947,7 +947,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = supplement_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 # NEE plot
@@ -961,12 +961,12 @@ nee_plot <- nee_plot_df %>%
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
-  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -980,7 +980,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = manuscript_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 
@@ -995,12 +995,12 @@ nee_plot <- nee_plot_df %>%
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
-  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -1014,7 +1014,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = manuscript_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 
@@ -1108,11 +1108,11 @@ yield_table %>%
   ggtitle(paste0("Yields, Observed and Estimated with LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
 ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
        path = manuscript_dir,
-       units = "mm", width = 400, height = 220)
+       units = "mm", width = 190, height = 105)
 
 rm(yield_table)
 
@@ -1179,11 +1179,11 @@ nee_table %>%
   ggtitle(paste0("Estimated Net Ecosystem Exchange using LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
 ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
        path = manuscript_dir,
-       units = "mm", width = 400, height = 220)
+       units = "mm", width = 190, height = 105)
 
 rm(nee_table)
 ################################################################################
@@ -1239,11 +1239,11 @@ lai_plot <- lai_plot_df %>%
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
   geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
-  geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+  geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -1257,7 +1257,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = supplement_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 # NEE plot
@@ -1271,12 +1271,12 @@ nee_plot <- nee_plot_df %>%
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
-  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -1290,7 +1290,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = supplement_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 
@@ -1305,12 +1305,12 @@ nee_plot <- nee_plot_df %>%
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
-  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 2) +
+  geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -1324,7 +1324,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
          path = supplement_dir,
-         units = "mm", width = 400, height = 220)
+         units = "mm", width = 190, height = 105)
 }
 
 
@@ -1418,11 +1418,11 @@ yield_table %>%
   ggtitle(paste0("Yields, Observed and Estimated with LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
 ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
        path = supplement_dir,
-       units = "mm", width = 400, height = 220)
+       units = "mm", width = 190, height = 105)
 
 rm(yield_table)
 
@@ -1489,11 +1489,11 @@ nee_table %>%
   ggtitle(paste0("Estimated Net Ecosystem Exchange using LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
 ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
        path = supplement_dir,
-       units = "mm", width = 400, height = 220)
+       units = "mm", width = 190, height = 105)
 
 rm(nee_table)
 ################################################################################
@@ -1603,12 +1603,12 @@ rmse_plot %>%
   ggtitle(paste0("Percentage improvement in RMSE across calibrations")) +
   labs(y = "Percentage Improvement", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
 
 ggsave(filename = paste0("Prop_RMSE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".png"),
        path = manuscript_dir,
-       units = "mm", width = 400, height = 220)
+       units = "mm", width = 190, height = 105)
 
 rmse_plot %>%
   ggplot() +
@@ -1624,13 +1624,13 @@ rmse_plot %>%
   ggtitle(paste0("Percentage improvement in RMSE across calibrations")) +
   labs(y = "Percentage Improvement (%)", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 20), legend.key.size = unit(1, 'cm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
   coord_flip()
 
 
 ggsave(filename = paste0("Prop_RMSE_plot_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".png"),
        path = manuscript_dir,
-       units = "mm", width = 400, height = 220)
+       units = "mm", width = 190, height = 105)
 
 # # Looking at the normalised root mean square errors, to assess overall efficacy at hitting the calibration observations.
 # lai_obs <- gai_file[which(gai_file$date > as.Date(paste0("2020", "/05/20")) & gai_file$date < as.Date(paste0("2022", "/05/20")) & gai_file$What == "Barley"), c("date", "crop", "GAI", "GAI_se")]
