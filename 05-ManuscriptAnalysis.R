@@ -57,7 +57,7 @@ n_ens <- dim(general_xb)[1]
 
 # Plotting parameter distributions
 # plot_colours <- c("#F8766D", "#00BFC4", "black", "grey") # Original colour images
-plot_colours <- c("#414487FF", "#7AD151FF", "black", "grey") # Greyscale and colourblind safe images.
+plot_colours <- c("#7AD151FF", "#414487FF", "black", "grey") # Greyscale and colourblind safe images.
 ################################################################################
 # Basic Twin Experiment Plotting Estimates
 # Set up variables that are referred to in the loops that can allow for programmatic plotting with minimal changes
@@ -160,7 +160,7 @@ for (plot_varying_params in c(3, 8)) {
     facet_wrap(vars(crop)) +
     ggtitle(paste0("Average estimated barley LAI, ", plot_years)) +
     labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
-    geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
+    geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
     geom_point(data = lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Truth"), size = 1) +
     geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Truth"), width = 0.5) +
     geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params & between(basic_truth$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(date, lai_n_plant_1, colour = "Truth"), alpha = 1) +
@@ -188,7 +188,7 @@ for (plot_varying_params in c(3, 8)) {
     facet_wrap(vars(crop)) +
     ggtitle(paste0("Average estimated plot NEE, barley growing season ", plot_years)) +
     labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
-    geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.5) +
+    geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.7) +
     geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], aes(x = date, y = value, colour = "Truth"), size = 1) +
     geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Truth"), width = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = "dashed", colour = "grey") +
@@ -481,7 +481,7 @@ lai_plot <- lai_plot_df %>%
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
-  geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
+  geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
   geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
@@ -509,11 +509,10 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  # geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params, ], aes(date, nee), colour = "black", alpha = 0.5) +
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -543,11 +542,10 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  # geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params, ], aes(date, nee), colour = "black", alpha = 0.5) +
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -791,7 +789,7 @@ lai_plot <- lai_plot_df %>%
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
-  geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.5) +
+  geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
   geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
@@ -819,11 +817,10 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  # geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params, ], aes(date, nee), colour = "black", alpha = 0.5) +
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -853,11 +850,10 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  # geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params, ], aes(date, nee), colour = "black", alpha = 0.5) +
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
