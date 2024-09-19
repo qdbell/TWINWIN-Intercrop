@@ -116,7 +116,8 @@ n_ens <- dim(general_xb)[1]
 # Note for the main twin experiment only truth 1 was used, so we filter to that set of parameter values and estimates
 
 # Plotting parameter distributions
-plot_colours <- c("#F8766D", "#00BFC4", "black", "grey")
+# plot_colours <- c("#F8766D", "#00BFC4", "black", "grey") # Original colour images
+plot_colours <- c("#414487FF", "#7AD151FF", "black", "grey") # Greyscale and colourblind safe images.
 print("Plotting Twin Experiment Distributions")
 # Exploratory plots, not needed for manuscript
 # for (num_params_varied in c(2:8)) {
@@ -156,9 +157,9 @@ print("Plotting Twin Experiment Distributions")
 #     }
 #
 #     dist_plotted
-#     ggsave(paste0(exploration_dir, "twin_exp/ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+#     ggsave(paste0(exploration_dir, "twin_exp/ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.pdf"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 #     if (num_params_varied == 4 & name == "Barley_sole20_long") {
-#       ggsave(paste0(manuscript_dir, "twin_exp_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+#       ggsave(paste0(manuscript_dir, "twin_exp_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.pdf"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 #     }
 #   }
 # }
@@ -202,7 +203,7 @@ print("Plotting Twin Experiment Distributions")
 #
 # dist_plotted
 #
-# ggsave(paste0(manuscript_dir, "twin_exp_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+# ggsave(paste0(manuscript_dir, "twin_exp_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.pdf"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 #
 # num_params_varied <- 4
 # synth_params_all <- readRDS(paste0(model_runs_dir, "synth_params.rds")) %>%
@@ -248,7 +249,7 @@ print("Plotting Twin Experiment Distributions")
 #
 #   dist_plotted
 #
-#   ggsave(filename = paste0(exploration_dir, "twin_exp/vary_truth/ParameterDistributions_", name, "_", num_params_varied, "_params_", truth, "_truth_num_", n_ens, "_ensemble.png"),
+#   ggsave(filename = paste0(exploration_dir, "twin_exp/vary_truth/ParameterDistributions_", name, "_", num_params_varied, "_params_", truth, "_truth_num_", n_ens, "_ensemble.pdf"),
 #          units = "mm", width = 800, height = 420)
 # }
 # rm(dist_plotted, plot_params, plot_synth_params, plot_xb)
@@ -368,7 +369,7 @@ for (plot_varying_params in c(3, 8)) {
 
   lai_plot
 
-  ggsave(filename = paste0("twin_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("twin_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
          units = "mm", width = 190, height = 105)
 
@@ -382,7 +383,7 @@ for (plot_varying_params in c(3, 8)) {
     facet_wrap(vars(crop)) +
     ggtitle(paste0("Average estimated plot NEE, barley growing season ", plot_years)) +
     labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
-    geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.30) +
+    geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.5) +
     geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], aes(x = date, y = value, colour = "Truth"), size = 1) +
     geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & nee_obs$num_params_varied == plot_varying_params, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Truth"), width = 0.5) +
     geom_hline(aes(yintercept = 0), linetype = "dashed", colour = "grey") +
@@ -395,7 +396,7 @@ for (plot_varying_params in c(3, 8)) {
 
   nee_plot
 
-  ggsave(filename = paste0("twin_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("twin_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -543,7 +544,7 @@ plot_prior_params <- params[1 : num_params_varied] %>%
 #   }
 #
 #   dist_plotted
-#   ggsave(paste0(exploration_dir, "twin_exp_ParameterDistributions_alt_truth_", truth, "_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 800, height = 420, limitsize = FALSE)
+#   ggsave(paste0(exploration_dir, "twin_exp_ParameterDistributions_alt_truth_", truth, "_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.pdf"), units = "mm", width = 800, height = 420, limitsize = FALSE)
 # }
 
 truth <- 1
@@ -590,7 +591,7 @@ if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
 }
 
 dist_plotted
-ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.png"), units = "mm", width = 190, height = 100, limitsize = FALSE)
+ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.pdf"), units = "mm", width = 190, height = 100, limitsize = FALSE)
 
 # tmp <- rand_params
 # tmp$truth_num <- factor(1 : nrow(tmp))
@@ -634,7 +635,7 @@ ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_par
 #     # geom_hline(aes(yintercept = post_sd_as_pct, colour = usm, linetype = "Post_sd"), alpha = 0.01)
 #     # param_diff_plot + facet_wrap(vars(parameter, num_params_varied), scales = "free")
 #     param_diff_plot
-#     ggsave(filename = paste0("ParameterDifferences_", i, "_params_varied_", plot_ens_size, "_ensemble.png"),
+#     ggsave(filename = paste0("ParameterDifferences_", i, "_params_varied_", plot_ens_size, "_ensemble.pdf"),
 #            path = results_path,
 #            units = "mm", width = 190, height = 105)
 #   }
@@ -681,7 +682,7 @@ plot_params <- rownames_to_column(plot_params, var = "parameter")
 #     print(paste0("Plotting error with ", name))
 #   }
 #   dist_plotted
-#   ggsave(paste0(exploration_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".png"), units = "mm", width = 1600, height = 840, limitsize = FALSE)
+#   ggsave(paste0(exploration_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".pdf"), units = "mm", width = 1600, height = 840, limitsize = FALSE)
 # }
 
 # Comparison of calibrated distributions plots.
@@ -707,7 +708,7 @@ if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
   print(paste0("Plotting error with ", name))
 }
 dist_plotted
-ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".png"), units = "mm", width = 190, height = 100, limitsize = FALSE)
+ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".pdf"), units = "mm", width = 190, height = 100, limitsize = FALSE)
 
 
 # Import observations
@@ -821,7 +822,7 @@ plot_prior_2020 <- general_prior %>%
 #     } else{
 #       lai_plot
 #
-#       ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+#       ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
 #              path = paste0(exploration_dir, "ObsVary"),
 #              units = "mm", width = 190, height = 105)
 #     }
@@ -853,7 +854,7 @@ plot_prior_2020 <- general_prior %>%
 #     } else{
 #       nee_plot
 #
-#       ggsave(filename = paste0("ObsVary_NEE_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+#       ggsave(filename = paste0("ObsVary_NEE_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
 #              path = paste0(exploration_dir, "ObsVary"),
 #              units = "mm", width = 190, height = 105)
 #     }
@@ -945,7 +946,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 } else{
   lai_plot
 
-  ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -960,7 +961,7 @@ nee_plot <- nee_plot_df %>%
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -978,7 +979,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 } else{
   nee_plot
 
-  ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = manuscript_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -994,7 +995,7 @@ nee_plot <- nee_plot_df %>%
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -1012,7 +1013,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 } else{
   nee_plot
 
-  ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = manuscript_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -1110,7 +1111,7 @@ yield_table %>%
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
-ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
        units = "mm", width = 190, height = 105)
 
@@ -1181,7 +1182,7 @@ nee_table %>%
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
-ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
        units = "mm", width = 190, height = 105)
 
@@ -1255,7 +1256,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 } else{
   lai_plot
 
-  ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -1270,7 +1271,7 @@ nee_plot <- nee_plot_df %>%
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -1288,7 +1289,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 } else{
   nee_plot
 
-  ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -1304,7 +1305,7 @@ nee_plot <- nee_plot_df %>%
   facet_wrap(vars(crop)) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
-  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.30) +
+  geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.5) +
   geom_point(data = nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(nee_obs[nee_obs$crop %in% plot_crops & between(nee_obs$date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
@@ -1322,7 +1323,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 } else{
   nee_plot
 
-  ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+  ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
          units = "mm", width = 190, height = 105)
 }
@@ -1420,7 +1421,7 @@ yield_table %>%
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
-ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = supplement_dir,
        units = "mm", width = 190, height = 105)
 
@@ -1491,7 +1492,7 @@ nee_table %>%
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
-ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".png"),
+ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = supplement_dir,
        units = "mm", width = 190, height = 105)
 
@@ -1606,7 +1607,7 @@ rmse_plot %>%
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
 
 
-ggsave(filename = paste0("Prop_RMSE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".png"),
+ggsave(filename = paste0("Prop_RMSE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
        units = "mm", width = 190, height = 105)
 
@@ -1628,7 +1629,7 @@ rmse_plot %>%
   coord_flip()
 
 
-ggsave(filename = paste0("Prop_RMSE_plot_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".png"),
+ggsave(filename = paste0("Prop_RMSE_plot_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
        units = "mm", width = 190, height = 105)
 
@@ -1712,7 +1713,6 @@ rm(prior_2021, obs_vary_analysis, obs_vary_draws, twinwin_posterior)
 #
 #
 # rm(twin_ens_size_xb, twin_ens_size_analysis, twin_ens_size_draws)
-
 
 
 
