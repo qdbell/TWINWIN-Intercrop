@@ -57,7 +57,8 @@ n_ens <- dim(general_xb)[1]
 
 # Plotting parameter distributions
 # plot_colours <- c("#F8766D", "#00BFC4", "black", "grey") # Original colour images
-plot_colours <- c("#7AD151FF", "#414487FF", "black", "grey") # Greyscale and colourblind safe images.
+plot_colours <- c("#00BFC4", "#880f07", "black", "grey")
+# plot_colours <- c("#7AD151FF", "#414487FF", "black", "grey") # Greyscale and colourblind safe images.
 ################################################################################
 # Basic Twin Experiment Plotting Estimates
 # Set up variables that are referred to in the loops that can allow for programmatic plotting with minimal changes
@@ -157,7 +158,7 @@ for (plot_varying_params in c(3, 8)) {
     ggplot() +
     # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
     geom_line(aes(date, LAI, colour = interaction(dist))) +
-    facet_wrap(vars(crop)) +
+    facet_wrap(vars(crop), ncol = 2) +
     ggtitle(paste0("Average estimated barley LAI, ", plot_years)) +
     labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
     geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
@@ -185,7 +186,7 @@ for (plot_varying_params in c(3, 8)) {
     scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
     geom_line(aes(date, NEE, colour = interaction(dist))) +
     geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params & between(basic_truth$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(date, nee), colour = "black", alpha = 0.5) +
-    facet_wrap(vars(crop)) +
+    facet_wrap(vars(crop), ncol = 2) +
     ggtitle(paste0("Average estimated plot NEE, barley growing season ", plot_years)) +
     labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
     geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.7) +
@@ -203,7 +204,7 @@ for (plot_varying_params in c(3, 8)) {
 
   ggsave(filename = paste0("twin_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
-         units = "mm", width = 190, height = 105)
+         units = "mm", width = 190, height = 120)
 }
 
 rm(lai_plot_df, nee_plot_df, lai_plot, nee_plot)
@@ -394,7 +395,7 @@ if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
   print(paste0("Plotting error with ", name))
 }
 dist_plotted
-ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".pdf"), units = "mm", width = 190, height = 100, limitsize = FALSE)
+ggsave(paste0(manuscript_dir, "ObsVary_ParameterDistributions_", name, "_", num_params_varied, "_params", ".pdf"), units = "mm", width = 190, height = 110, limitsize = FALSE)
 
 
 # Import observations
@@ -411,7 +412,7 @@ plot_dists <- factor(c("Prior", "Posterior"), levels = c("Prior", "Posterior", "
 plot_usm_calib <- "Self"
 plot_ens_size <- n_ens
 obs_sets <- unique(twinwin_posterior$obs_calib)
-
+plot_varying_params <- num_params_varied
 plot_prior_2020 <- general_prior %>%
   filter(num_params_varied == 3)
 
@@ -478,7 +479,7 @@ lai_plot <- lai_plot_df %>%
   ggplot() +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
   geom_line(aes(date, LAI, colour = interaction(dist))) +
-  facet_wrap(vars(crop)) +
+  facet_wrap(vars(crop), ncol = 2) +
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
   geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
@@ -500,7 +501,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
-         units = "mm", width = 190, height = 105)
+         units = "mm", width = 190, height = 190)
 }
 
 # NEE plot
@@ -509,7 +510,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop)) +
+  facet_wrap(vars(crop), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -532,7 +533,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = manuscript_dir,
-         units = "mm", width = 190, height = 105)
+         units = "mm", width = 190, height = 190)
 }
 
 
@@ -542,7 +543,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop)) +
+  facet_wrap(vars(crop), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -565,7 +566,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_post_harvest_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = manuscript_dir,
-         units = "mm", width = 190, height = 105)
+         units = "mm", width = 190, height = 190)
 }
 
 
@@ -650,7 +651,7 @@ yield_table %>%
   arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
   ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
   scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.6) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
   geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
   geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
   scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
@@ -721,7 +722,7 @@ nee_table %>%
   arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
   ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.6) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
   geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
   geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
   scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
@@ -786,7 +787,7 @@ lai_plot <- lai_plot_df %>%
   ggplot() +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
   geom_line(aes(date, LAI, colour = interaction(dist))) +
-  facet_wrap(vars(crop)) +
+  facet_wrap(vars(crop), ncol = 2) +
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
   geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
@@ -808,7 +809,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_LAI_plot_mean_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
-         units = "mm", width = 190, height = 105)
+         units = "mm", width = 190, height = 190)
 }
 
 # NEE plot
@@ -817,7 +818,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop)) +
+  facet_wrap(vars(crop), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -840,7 +841,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 
   ggsave(filename = paste0("ObsVary_NEE_plot_mean_barley_season_", plot_varying_params, "_params_", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
          path = supplement_dir,
-         units = "mm", width = 190, height = 105)
+         units = "mm", width = 190, height = 190)
 }
 
 
@@ -850,7 +851,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop)) +
+  facet_wrap(vars(crop), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -958,7 +959,7 @@ yield_table %>%
   arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
   ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
   scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.6) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
   geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
   geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
   scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
@@ -1029,7 +1030,7 @@ nee_table %>%
   arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
   ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.6) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
   geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
   geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
   scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
