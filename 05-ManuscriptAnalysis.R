@@ -666,7 +666,46 @@ ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_",
        path = manuscript_dir,
        units = "mm", width = 190, height = 105)
 
-rm(yield_table)
+# Graphical Abstract yield table:
+yield_grabs <- yield_table %>%
+  filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  {
+    if (plot_usm_calib == "Self") {
+      filter(., usm_calib == crop | dist == "Prior")
+    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+  } %>%
+  {
+    if (!("Prior" %in% plot_dists)) {
+      filter(., dist != "Prior")
+    } else .
+  } %>%
+  rename(value = Yield_mean, uncertainty = Yield_se) %>%
+  ungroup() %>%
+  select(-c(usm_calib, obs_calib)) %>%
+  bind_rows(yield_obs) %>%
+  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior")))
+
+
+yield_grabs %>%
+  filter(crop %in% c("Barley", "FA")) %>%
+  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
+  scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
+  geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
+  geom_vline(aes(xintercept = 0, colour = "95% CI", group = 1), width = 0.2,) +
+  scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
+  scale_colour_manual(values = "black", breaks = c("95% CI")) +
+  facet_wrap(vars(year), ncol = 2, axes = "all_x") +
+  ggtitle(paste0("Estimated Yields (Calibrating LAI + Yield)")) +
+  labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "", colour = "") +
+  guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
+  theme(text = element_text(size = 24), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 24, face = "bold"))
+
+ggsave(filename = paste0("Yield_plot_grabs.pdf"),
+       path = manuscript_dir,
+       units = "mm", width = 300, height = 200)
+
+rm(yield_table, yield_grabs)
 
 ################# NEE bar plot #################
 plot_prior_2020
