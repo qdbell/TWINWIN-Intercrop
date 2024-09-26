@@ -167,7 +167,7 @@ for (plot_varying_params in c(3, 8)) {
     geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params & between(basic_truth$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(date, lai_n_plant_1, colour = "Truth"), alpha = 1) +
     geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
     guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
     scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -195,7 +195,7 @@ for (plot_varying_params in c(3, 8)) {
     geom_hline(aes(yintercept = 0), linetype = "dashed", colour = "grey") +
     geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
     guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
     scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth", "Harvest")) +
     scale_x_date(expand = c(0, 2), breaks = waiver(), labels = waiver())
@@ -342,7 +342,7 @@ dist_plotted <- plot_post_draws %>%
   ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
   labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
   # guides(fill = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 # geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
 if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
   dist_plotted <- ggplot()
@@ -487,7 +487,7 @@ lai_plot <- lai_plot_df %>%
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -519,7 +519,7 @@ nee_plot <- nee_plot_df %>%
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -552,7 +552,7 @@ nee_plot <- nee_plot_df %>%
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -660,7 +660,7 @@ yield_table %>%
   ggtitle(paste0("Yields, Observed and Estimated with LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
 ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
@@ -770,7 +770,7 @@ nee_table %>%
   ggtitle(paste0("Estimated Net Ecosystem Exchange using LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
 ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
@@ -834,7 +834,7 @@ lai_plot <- lai_plot_df %>%
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
   # geom_vline(aes(xintercept = yield_obs_dates[which(format(yield_obs_dates, "%Y") == plot_years)], colour = "Harvest"), linetype = "dashed") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = TRUE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
@@ -866,7 +866,7 @@ nee_plot <- nee_plot_df %>%
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -899,7 +899,7 @@ nee_plot <- nee_plot_df %>%
   geom_hline(aes(yintercept = 0, linetype = "Observation"), colour = "grey") +
   geom_vline(aes(xintercept = yield_obs_dates, colour = "Harvest", linetype = "Harvest")) +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
@@ -1007,7 +1007,7 @@ yield_table %>%
   ggtitle(paste0("Yields, Observed and Estimated with LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
 ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = supplement_dir,
@@ -1078,7 +1078,7 @@ nee_table %>%
   ggtitle(paste0("Estimated Net Ecosystem Exchange using LAI + Yield Self-Calibration")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
 ggsave(filename = paste0("NEE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
        path = supplement_dir,
@@ -1160,7 +1160,7 @@ rmse_plot %>%
   ggtitle(paste0("Percentage improvement in RMSE across calibrations")) +
   labs(y = "Percentage Improvement", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom")
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
 
 ggsave(filename = paste0("Prop_RMSE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
@@ -1181,7 +1181,7 @@ rmse_plot %>%
   ggtitle(paste0("Percentage improvement in RMSE across calibrations")) +
   labs(y = "Percentage Improvement (%)", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom") +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   coord_flip()
 
 
