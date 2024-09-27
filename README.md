@@ -1,7 +1,7 @@
 # TWINWIN-Intercrop
 
 To replicate the results of Bell et al. *Calibrating primary crop parameters to capture undersown species impacts*, it is sufficient to run 04-ModelRuns.R and 05-ManuscriptAnalysis.R, provided the necessary data and other software has been downloaded from the following sources:
-- Data: INSERT METIS LINK
+- Data: [https://doi.org/10.57707/fmi-b2share.5045c445712b4086840ac199e4b5d2b2](https://doi.org/10.57707/fmi-b2share.5045c445712b4086840ac199e4b5d2b2)
 - [4DEnVar](https://github.com/tquaife/4DEnVar_engine/tree/7bb23a2) (version used for this research)
 - [STICS v9.2](https://stics.inrae.fr/eng/download) (Specifically, JavaSTICS-1.41-stics-9.2.zip)
 
