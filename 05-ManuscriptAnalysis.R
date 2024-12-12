@@ -1145,49 +1145,51 @@ rmse_plot <- rmse_table %>%
 prop_totals <- rmse_plot %>% group_by(obs_calib, Type, year) %>%
   summarise(total = sum(prop))
 
-
 rmse_plot %>%
+  filter(year == "2020") %>%
   ggplot() +
   geom_bar(aes(x = obs_calib, y = prop, fill = obs), stat = "identity",
            position = "stack", alpha = 0.9) +
-  geom_bar(data = prop_totals,
+  geom_bar(data = prop_totals %>% filter(year == "2020"),
            aes(x = obs_calib, y = total, fill = "Total"), width = .2, alpha = 0.9,
            stat = "identity") +
   geom_hline(yintercept = 0,  col = "black", lty = 1, size = 1) +
   facet_wrap(vars(year, Type), ncol = 2, axes = "all_x") +
   scale_fill_manual(values = viridis(5)[c(1, 4, 3, 2)], breaks = c("Total", "LAI (L)", "NEE (N)", "Yield (Y)")) +
   # scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
-  ggtitle(paste0("Percentage improvement in RMSE across calibrations")) +
-  labs(y = "Percentage Improvement", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
-  guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
-
-
-ggsave(filename = paste0("Prop_RMSE_plot_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
-       path = manuscript_dir,
-       units = "mm", width = 190, height = 105)
-
-rmse_plot %>%
-  ggplot() +
-  geom_bar(aes(x = obs_calib, y = prop, fill = obs), stat = "identity",
-           position = "stack", alpha = 0.9) +
-  geom_bar(data = prop_totals,
-           aes(x = obs_calib, y = total, fill = "Total"), width = .2, alpha = 0.9,
-           stat = "identity") +
-  geom_hline(yintercept = 0,  col = "black", lty = 1, size = 1) +
-  facet_wrap(vars(year, Type), ncol = 2, axes = "all_x") +
-  scale_fill_manual(values = viridis(5)[c(1, 4, 3, 2)], breaks = c("Total", "LAI (L)", "NEE (N)", "Yield (Y)")) +
-  # scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
-  ggtitle(paste0("Percentage improvement in RMSE across calibrations")) +
+  # ggtitle(paste0("Percentage improvement in RMSE in the calibration dataset across calibrations")) +
   labs(y = "Percentage Improvement (%)", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
   coord_flip()
 
 
-ggsave(filename = paste0("Prop_RMSE_plot_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
+ggsave(filename = paste0("Prop_RMSE_plot_2020_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
-       units = "mm", width = 190, height = 105)
+       units = "mm", width = 190, height = 65)
+
+rmse_plot %>%
+  filter(year == "2021") %>%
+  ggplot() +
+  geom_bar(aes(x = obs_calib, y = prop, fill = obs), stat = "identity",
+           position = "stack", alpha = 0.9) +
+  geom_bar(data = prop_totals %>% filter(year == "2021"),
+           aes(x = obs_calib, y = total, fill = "Total"), width = .2, alpha = 0.9,
+           stat = "identity") +
+  geom_hline(yintercept = 0,  col = "black", lty = 1, size = 1) +
+  facet_wrap(vars(year, Type), ncol = 2, axes = "all_x") +
+  scale_fill_manual(values = viridis(5)[c(1, 4, 3, 2)], breaks = c("Total", "LAI (L)", "NEE (N)", "Yield (Y)")) +
+  # scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
+  # ggtitle(paste0("Percentage improvement in RMSE in the validation dataset across calibrations")) +
+  labs(y = "Percentage Improvement (%)", x = "Observation Sets Used in Calibration", fill = "", colour = "") +
+  guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8)) +
+  coord_flip()
+
+
+ggsave(filename = paste0("Prop_RMSE_plot_2021_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
+       path = manuscript_dir,
+       units = "mm", width = 190, height = 65)
 
 rm(prior_2021, obs_vary_analysis, obs_vary_draws, twinwin_posterior)
 ################################################################################
