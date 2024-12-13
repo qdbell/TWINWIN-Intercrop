@@ -155,6 +155,7 @@ nee_plot_df <- dplyr::bind_rows(general_prior[ , c("ens", "num_params_varied", "
 for (plot_varying_params in c(3, 8)) {
   lai_plot <- lai_plot_df %>%
     filter(num_params_varied == plot_varying_params) %>%
+    mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
     ggplot() +
     # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
     geom_line(aes(date, LAI, colour = interaction(dist))) +
@@ -182,6 +183,7 @@ for (plot_varying_params in c(3, 8)) {
   nee_plot <- nee_plot_df %>%
     filter(num_params_varied == plot_varying_params) %>%
     filter(between(date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates) & crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+    mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
     ggplot() +
     scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
     geom_line(aes(date, NEE, colour = interaction(dist))) +
@@ -326,8 +328,8 @@ dist_plotted <- plot_post_draws %>%
   group_by(parameter) %>%
   ggplot(aes(x = value)) +
   # geom_histogram(aes(x = value, fill = dist), bins = 20, position = "dodge") +
-  geom_density(aes(fill = "Posterior", colour = "Posterior"), alpha = 0.5) +
   geom_density(data = plot_xb, aes(fill = "Prior", colour = "Prior"), alpha = 0.5) +
+  geom_density(aes(fill = "Posterior", colour = "Posterior"), alpha = 0.5) +
   geom_vline(data = plot_params[which(plot_params$usm == name), ], aes(xintercept = value, colour = "Posterior"), alpha = 1, linetype = "solid", linewidth = 1) +
   geom_vline(data = plot_synth_params, aes(xintercept = value, colour = "Truth", fill = "Truth"), alpha = 1, linetype = "solid", linewidth = 1) +
   geom_vline(data = plot_prior_params, aes(xintercept = value, colour = "Prior"), alpha = 1, linetype = "solid", linewidth = 1) +
@@ -468,7 +470,8 @@ nee_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
     if (!("Prior" %in% plot_dists)) {
       filter(., dist != "Prior")
     } else .
-  }
+  } %>%
+  arrange(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior")))
 
 
 
@@ -476,6 +479,7 @@ nee_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
 # LAI plot
 lai_plot <- lai_plot_df %>%
   filter(date < yield_obs_dates) %>%
+  mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
   ggplot() +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
   geom_line(aes(date, LAI, colour = interaction(dist))) +
@@ -507,10 +511,11 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 # NEE plot
 nee_plot <- nee_plot_df %>%
   filter(between(date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates) & crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop), ncol = 2) +
+  facet_wrap(~factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -524,6 +529,7 @@ nee_plot <- nee_plot_df %>%
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_linetype_manual(values = c(2, 1, 2, 2), breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   scale_x_date(expand = c(0, 2), breaks = waiver(), labels = waiver())
+nee_plot
 
 if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
   nee_plot <- ggplot()
@@ -540,6 +546,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 # NEE plot
 nee_plot <- nee_plot_df %>%
   filter(between(date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))) & crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
@@ -632,40 +639,78 @@ yield_table %>%
   rename(Crop = crop, Distribution = dist, "Yield 2020, t ha-1 (std dev.)" = "2020", "Yield 2021, t ha-1 (std dev.)" = "2021") %>%
   stargazer::stargazer(type = "text", summary = FALSE, rownames = FALSE, out = paste0(manuscript_dir, "yield_table__", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, c(".tex", ".txt")))
 
-############# Yield bar plot #############
-yield_table %>%
-  filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
-  {
-    if (plot_usm_calib == "Self") {
-      filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
-  } %>%
-  {
-    if (!("Prior" %in% plot_dists)) {
-      filter(., dist != "Prior")
-    } else .
-  } %>%
-  rename(value = Yield_mean, uncertainty = Yield_se) %>%
-  select(-c(usm_calib, obs_calib)) %>%
-  bind_rows(yield_obs) %>%
-  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
-  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
-  scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
-  geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
-  geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
-  scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
-  scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
-  facet_wrap(vars(year), ncol = 1, axes = "all_x") +
-  ggtitle(paste0("Yields, Observed and Estimated with LAI + Yield Self-Calibration")) +
-  labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
-  guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
+for (loop_usm_calib in c("Barley", "Self")) {
+  ############# Yield bar plot #############
+  yield_table %>%
+    filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+    {
+      if (loop_usm_calib == "Self") {
+        filter(., usm_calib == crop | dist == "Prior")
+      } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } %>%
+    {
+      if (!("Prior" %in% plot_dists)) {
+        filter(., dist != "Prior")
+      } else .
+    } %>%
+    rename(value = Yield_mean, uncertainty = Yield_se) %>%
+    select(-c(usm_calib, obs_calib)) %>%
+    bind_rows(yield_obs) %>%
+    arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
+    ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
+    scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
+    geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
+    geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
+    geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
+    scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
+    scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
+    facet_wrap(vars(year), ncol = 1, axes = "all_x") +
+    ggtitle(paste0("Barley Yields, Observed and Estimated with LAI + Yield ", loop_usm_calib, "-Calibration")) +
+    labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
+    guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
+    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
-ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
-       path = manuscript_dir,
-       units = "mm", width = 190, height = 105)
+  ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", loop_usm_calib, "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
+         path = manuscript_dir,
+         units = "mm", width = 190, height = 105)
 
+
+  ############# Yield bar plot without Barley + Herbicide #############
+  yield_obs_noherb <- yield_obs %>%
+    filter(crop != "Barley + Herbicide")
+  yield_table %>%
+    filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+    {
+      if (loop_usm_calib == "Self") {
+        filter(., usm_calib == crop | dist == "Prior")
+      } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } %>%
+    {
+      if (!("Prior" %in% plot_dists)) {
+        filter(., dist != "Prior")
+      } else .
+    } %>%
+    rename(value = Yield_mean, uncertainty = Yield_se) %>%
+    select(-c(usm_calib, obs_calib)) %>%
+    bind_rows(yield_obs_noherb) %>%
+    arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
+    ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
+    scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
+    geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
+    geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
+    geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
+    scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
+    scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
+    facet_wrap(vars(year), ncol = 1, axes = "all_x") +
+    ggtitle(paste0("Barley Yields, Observed and Estimated with LAI + Yield ", loop_usm_calib, "-Calibration")) +
+    labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
+    guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
+    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
+
+  ggsave(filename = paste0("Yield_plot_no_herb_", paste0(plot_crops, collapse = "_"), "_", loop_usm_calib, "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
+         path = manuscript_dir,
+         units = "mm", width = 190, height = 105)
+}
 # Graphical Abstract yield table:
 yield_grabs <- yield_table %>%
   filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
@@ -705,7 +750,8 @@ ggsave(filename = paste0("Yield_plot_grabs.pdf"),
        path = manuscript_dir,
        units = "mm", width = 300, height = 200)
 
-rm(yield_table, yield_grabs)
+
+rm(yield_table, yield_grabs, yield_obs_noherb)
 
 ################# NEE bar plot #################
 plot_prior_2020
@@ -823,6 +869,7 @@ nee_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
 # LAI plot
 lai_plot <- lai_plot_df %>%
   filter(date < yield_obs_dates) %>%
+  mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
   ggplot() +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
   geom_line(aes(date, LAI, colour = interaction(dist))) +
@@ -854,6 +901,7 @@ if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
 # NEE plot
 nee_plot <- nee_plot_df %>%
   filter(between(date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates) & crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
@@ -887,6 +935,7 @@ if (inherits(try(ggplot_build(nee_plot)), "try-error")) {
 # NEE plot
 nee_plot <- nee_plot_df %>%
   filter(between(date, yield_obs_dates, as.Date(paste0(plot_years, "/12/12"))) & crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  mutate(dist = factor(dist, levels = c("Prior", "Posterior"))) %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
