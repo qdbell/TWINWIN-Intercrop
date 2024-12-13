@@ -126,7 +126,7 @@ lai_plot_df <- dplyr::bind_rows(general_prior[ , c("ens", "num_params_varied", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -143,7 +143,7 @@ nee_plot_df <- dplyr::bind_rows(general_prior[ , c("ens", "num_params_varied", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -226,7 +226,7 @@ yield_table <- dplyr::bind_rows(general_prior[ , c("ens", "num_params_varied", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -447,7 +447,7 @@ lai_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -464,7 +464,7 @@ nee_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -623,7 +623,7 @@ yield_table %>%
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -646,7 +646,7 @@ for (loop_usm_calib in c("Barley", "Self")) {
     {
       if (loop_usm_calib == "Self") {
         filter(., usm_calib == crop | dist == "Prior")
-      } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+      } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
     } %>%
     {
       if (!("Prior" %in% plot_dists)) {
@@ -683,7 +683,7 @@ for (loop_usm_calib in c("Barley", "Self")) {
     {
       if (loop_usm_calib == "Self") {
         filter(., usm_calib == crop | dist == "Prior")
-      } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+      } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
     } %>%
     {
       if (!("Prior" %in% plot_dists)) {
@@ -717,7 +717,7 @@ yield_grabs <- yield_table %>%
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -794,7 +794,7 @@ nee_table %>%
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -838,7 +838,7 @@ lai_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -855,7 +855,7 @@ nee_plot_df <- dplyr::bind_rows(plot_prior[ , c("ens", "date", "crop", "dist", "
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -1012,7 +1012,7 @@ yield_table %>%
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -1034,7 +1034,7 @@ yield_table %>%
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
@@ -1105,7 +1105,7 @@ nee_table %>%
   {
     if (plot_usm_calib == "Self") {
       filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib != "Barley" | crop == "Barley" | dist == "Prior")
+    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
   } %>%
   {
     if (!("Prior" %in% plot_dists)) {
