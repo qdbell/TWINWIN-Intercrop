@@ -159,9 +159,9 @@ for (plot_varying_params in c(3, 8)) {
     ggplot() +
     # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
     geom_line(aes(date, LAI, colour = interaction(dist))) +
-    facet_wrap(vars(crop), ncol = 2) +
+    facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
     ggtitle(paste0("Average estimated barley LAI, ", plot_years)) +
-    labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
+    labs(y = expression(paste("Barley LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
     geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
     geom_point(data = lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(x = date, y = value, colour = "Truth"), size = 1) +
     geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops & lai_obs$num_params_varied == plot_varying_params & between(lai_obs$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Truth"), width = 0.5) +
@@ -188,7 +188,7 @@ for (plot_varying_params in c(3, 8)) {
     scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
     geom_line(aes(date, NEE, colour = interaction(dist))) +
     geom_line(data = basic_truth[basic_truth$crop %in% plot_crops & basic_truth$num_params_varied == plot_varying_params & between(basic_truth$date, as.Date(paste0(plot_years, "/05/20")), yield_obs_dates), ], aes(date, nee), colour = "black", alpha = 0.5) +
-    facet_wrap(vars(crop), ncol = 2) +
+    facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
     ggtitle(paste0("Average estimated plot NEE, barley growing season ", plot_years)) +
     labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Used in Calibration (2020)") +
     geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = interaction(dist)), alpha = 0.7) +
@@ -288,6 +288,77 @@ rm(twin_fourth_prior, twin_fourth_analysis, twin_fourth_draws)
 # twin experiment alternate truths: spread/mean of absolute % errors across truths; post. vs prior dists?; distribution of estimates by mean vs truths?
 
 alt_truths_parameter_ens <- readRDS(paste0(model_runs_dir, "alt_truths_parameter_ens.rds")) %>%
+  filter(num_params_varied == 3)
+alt_truths_param_ests <- readRDS(paste0(model_runs_dir, "alt_truths_param_ests.rds")) %>%
+  filter(num_params_varied == 3)
+synth_params_all <- readRDS(paste0(model_runs_dir, "synth_params.rds")) %>%
+  rownames_to_column() %>%
+  separate_wider_delim(rowname, delim = "_", names = c(NA, "truth_num", NA, NA, "num_params"))
+
+synth_params_3 <- synth_params_all %>%
+  filter(num_params == 3) %>%
+  select(truth_num, adens, efcroiveg, vitircarb, INNmin)
+
+
+plot_ens_size <- n_ens
+# Need to add back the prior mean, and the synthetic truth for each one, so that the plot can have on the x-axis the difference between the prior mean and the synthetic truth, and on the y axis the difference between the posterior mean and the synthetic truth. Need to consider how the uncertainties can be best communicated, is it worth including the prior uncertainty?
+
+num_params_varied <- 3
+name <- "Barley_sole20_long"
+plot_xb <- pivot_longer(as.data.frame(general_xb), 1 : num_params_varied, names_to = "parameter")
+plot_prior_params <- params[1 : num_params_varied] %>%
+  pivot_longer(everything(), names_to = "parameter")
+
+truth <- 4
+plot_params <- alt_truths_param_ests %>%
+  filter(truth_used == truth) %>%
+  select(-c(truth_used, num_params_varied))
+
+plot_post_draws <- alt_truths_parameter_ens %>%
+  filter(truth_used == truth, usm == name) %>%
+  select(-c(truth_used, num_params_varied))
+
+plot_synth_params <- synth_params_3 %>%
+  filter(truth_num == truth) %>%
+  select(-c(truth_num)) %>%
+  pivot_longer(c(adens, efcroiveg, vitircarb), names_to = "parameter")
+
+dist_plotted <- plot_post_draws %>%
+  filter(usm == name) %>%
+  group_by(parameter) %>%
+  ggplot(aes(x = value)) +
+  # geom_histogram(aes(x = value, fill = dist), bins = 20, position = "dodge") +
+  geom_density(data = plot_xb, aes(fill = "Prior", colour = "Prior"), alpha = 0.5) +
+  geom_density(aes(fill = "Posterior", colour = "Posterior"), alpha = 0.5) +
+  geom_vline(data = plot_params[which(plot_params$usm == name), ], aes(xintercept = value, colour = "Posterior"), alpha = 1, linetype = "solid", linewidth = 1) +
+  geom_vline(data = plot_synth_params, aes(xintercept = value, colour = "Truth", fill = "Truth"), alpha = 1, linetype = "solid", linewidth = 1) +
+  geom_vline(data = plot_prior_params, aes(xintercept = value, colour = "Prior"), alpha = 1, linetype = "solid", linewidth = 1) +
+  # stat_function(fun = dnorm, args = list(mean = prior_mean, sd = prior_mean * 0.1)) +
+  facet_wrap(~ parameter, scales = "free") +
+  scale_y_continuous(expand = expansion(mult = c(0, .1))) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_colour_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth")) +
+  scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Truth")) +
+  # scale_colour_viridis_d() +
+  # scale_fill_viridis_d() +
+  ggtitle(paste0("Estimated Parameter Ensemble Distributions: Sole Barley")) +
+  labs(y = "Density", x = "Parameter Value", fill = "", colour = "") +
+  # guides(fill = guide_legend(reverse = FALSE)) +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
+# geom_line(data = plot_dists[plot_dists$dist == "prior", ], aes(y = dnorm(value, mean = tapply(value, parameter, mean)[PANEL], sd = tapply(value, parameter, sd)[PANEL])), colour = "blue")
+if (inherits(try(ggplot_build(dist_plotted)), "try-error")) {
+  dist_plotted <- ggplot()
+  print(paste0("Plotting error with ", name, " truth ", truth))
+  next
+}
+
+dist_plotted
+ggsave(paste0(manuscript_dir, "twin_ParameterDistributions_", name, "_", num_params_varied, "_params_", n_ens, "_ensemble.pdf"), units = "mm", width = 190, height = 100, limitsize = FALSE)
+
+
+##### Compare with 4 parameters being varied.
+
+alt_truths_parameter_ens <- readRDS(paste0(model_runs_dir, "alt_truths_parameter_ens.rds")) %>%
   filter(num_params_varied == 4)
 alt_truths_param_ests <- readRDS(paste0(model_runs_dir, "alt_truths_param_ests.rds")) %>%
   filter(num_params_varied == 4)
@@ -309,7 +380,7 @@ plot_xb <- pivot_longer(as.data.frame(general_xb), 1 : num_params_varied, names_
 plot_prior_params <- params[1 : num_params_varied] %>%
   pivot_longer(everything(), names_to = "parameter")
 
-truth <- 1
+truth <- 4
 plot_params <- alt_truths_param_ests %>%
   filter(truth_used == truth) %>%
   select(-c(truth_used, num_params_varied))
@@ -483,9 +554,9 @@ lai_plot <- lai_plot_df %>%
   ggplot() +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
   geom_line(aes(date, LAI, colour = interaction(dist))) +
-  facet_wrap(vars(crop), ncol = 2) +
+  facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
-  labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
+  labs(y = expression(paste("Barley LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
   geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
   geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
@@ -496,6 +567,8 @@ lai_plot <- lai_plot_df %>%
   scale_fill_manual(values = plot_colours, breaks = c("Prior", "Posterior", "Observation", "Harvest")) +
   # scale_y_continuous(expand = expansion(mult = c(0, .1))) +
   scale_x_date(expand = c(0, 0))
+
+lai_plot
 
 if (inherits(try(ggplot_build(lai_plot)), "try-error")) {
   lai_plot <- ggplot()
@@ -550,7 +623,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop), ncol = 2) +
+  facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -639,78 +712,79 @@ yield_table %>%
   rename(Crop = crop, Distribution = dist, "Yield 2020, t ha-1 (std dev.)" = "2020", "Yield 2021, t ha-1 (std dev.)" = "2021") %>%
   stargazer::stargazer(type = "text", summary = FALSE, rownames = FALSE, out = paste0(manuscript_dir, "yield_table__", plot_years, "_", paste0(plot_crops, collapse = "_"), "_", plot_obs_calib, "_", plot_ens_size, c(".tex", ".txt")))
 
-for (loop_usm_calib in c("Barley", "Self")) {
-  ############# Yield bar plot #############
-  yield_table %>%
-    filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
-    {
-      if (loop_usm_calib == "Self") {
-        filter(., usm_calib == crop | dist == "Prior")
-      } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
-    } %>%
-    {
-      if (!("Prior" %in% plot_dists)) {
-        filter(., dist != "Prior")
-      } else .
-    } %>%
-    rename(value = Yield_mean, uncertainty = Yield_se) %>%
-    select(-c(usm_calib, obs_calib)) %>%
-    bind_rows(yield_obs) %>%
-    arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
-    ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
-    scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-    geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
-    geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
-    geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
-    scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
-    scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
-    facet_wrap(vars(year), ncol = 1, axes = "all_x") +
-    ggtitle(paste0("Barley Yields, Observed and Estimated with LAI + Yield ", loop_usm_calib, "-Calibration")) +
-    labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
-    guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
+############# Yield bar plot #############
+yield_table %>%
+  filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  # {
+  #   if (loop_usm_calib == "Self") {
+  #     filter(., usm_calib == crop | dist == "Prior")
+  #   } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
+  # } %>%
+  # {
+  #   if (!("Prior" %in% plot_dists)) {
+  #     filter(., dist != "Prior")
+  #   } else .
+  # } %>%
+  rename(value = Yield_mean, uncertainty = Yield_se) %>%
+  mutate(dist = paste0(dist, ", ", usm_calib), dist = gsub(", NA", "", dist), dist = gsub("AA|AC|CI|FA|IR|RC|WC", "Self", dist)) %>%
+  select(-c(usm_calib, obs_calib)) %>%
+  bind_rows(yield_obs) %>%
+  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self"))) %>%
+  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")))) +
+  scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
+  geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
+  geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
+  scale_fill_manual(values = c("black", "#00BFC4", "#880f07", "sienna1"), breaks = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")) +
+  scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
+  facet_wrap(vars(year), ncol = 1, axes = "all_x") +
+  ggtitle(paste0("Barley Yields, Observed and Estimated with LAI + Yield Calibrations")) +
+  labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
+  guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
-  ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", loop_usm_calib, "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
-         path = manuscript_dir,
-         units = "mm", width = 190, height = 105)
+ggsave(filename = paste0("Yield_plot_", paste0(plot_crops, collapse = "_"), "_", "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
+       path = manuscript_dir,
+       units = "mm", width = 190, height = 105)
 
 
-  ############# Yield bar plot without Barley + Herbicide #############
-  yield_obs_noherb <- yield_obs %>%
-    filter(crop != "Barley + Herbicide")
-  yield_table %>%
-    filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
-    {
-      if (loop_usm_calib == "Self") {
-        filter(., usm_calib == crop | dist == "Prior")
-      } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
-    } %>%
-    {
-      if (!("Prior" %in% plot_dists)) {
-        filter(., dist != "Prior")
-      } else .
-    } %>%
-    rename(value = Yield_mean, uncertainty = Yield_se) %>%
-    select(-c(usm_calib, obs_calib)) %>%
-    bind_rows(yield_obs_noherb) %>%
-    arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
-    ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
-    scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
-    geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
-    geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
-    geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
-    scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
-    scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
-    facet_wrap(vars(year), ncol = 1, axes = "all_x") +
-    ggtitle(paste0("Barley Yields, Observed and Estimated with LAI + Yield ", loop_usm_calib, "-Calibration")) +
-    labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
-    guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
-    theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
+############# Yield bar plot without Barley + Herbicide #############
+yield_obs_noherb <- yield_obs %>%
+  filter(crop != "Barley + Herbicide")
+yield_table %>%
+  filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  # {
+  #   if (loop_usm_calib == "Self") {
+  #     filter(., usm_calib == crop | dist == "Prior")
+  #   } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
+  # } %>%
+  # {
+  #   if (!("Prior" %in% plot_dists)) {
+  #     filter(., dist != "Prior")
+  #   } else .
+  # } %>%
+  rename(value = Yield_mean, uncertainty = Yield_se) %>%
+  mutate(dist = paste0(dist, ", ", usm_calib), dist = gsub(", NA", "", dist), dist = gsub("AA|AC|CI|FA|IR|RC|WC", "Self", dist)) %>%
+  select(-c(usm_calib, obs_calib)) %>%
+  bind_rows(yield_obs_noherb) %>%
+  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self"))) %>%
+  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")))) +
+  scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
+  geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
+  geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
+  geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
+  scale_fill_manual(values = c("black", "#00BFC4", "#880f07", "sienna1"), breaks = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")) +
+  scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
+  facet_wrap(vars(year), ncol = 1, axes = "all_x") +
+  ggtitle(paste0("Barley Yields, Observed and Estimated with LAI + Yield Calibrations")) +
+  labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
+  guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
+  theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
-  ggsave(filename = paste0("Yield_plot_no_herb_", paste0(plot_crops, collapse = "_"), "_", loop_usm_calib, "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
-         path = manuscript_dir,
-         units = "mm", width = 190, height = 105)
-}
+ggsave(filename = paste0("Yield_plot_no_herb_", paste0(plot_crops, collapse = "_"), "_", "_", plot_obs_calib, "_", plot_ens_size, ".pdf"),
+       path = manuscript_dir,
+       units = "mm", width = 190, height = 105)
+
 # Graphical Abstract yield table:
 yield_grabs <- yield_table %>%
   filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
@@ -730,19 +804,40 @@ yield_grabs <- yield_table %>%
   bind_rows(yield_obs) %>%
   arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior")))
 
+yield_grabs <- yield_table %>%
+  filter(crop %in% c("FA") & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
+  # {
+  #   if (plot_usm_calib == "Self") {
+  #     filter(., usm_calib == crop | dist == "Prior")
+  #   } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
+  # } %>%
+  # {
+  #   if (!("Prior" %in% plot_dists)) {
+  #     filter(., dist != "Prior")
+  #   } else .
+  # } %>%
+  rename(value = Yield_mean, uncertainty = Yield_se) %>%
+  ungroup() %>%
+  mutate(dist = paste0(dist, ", ", usm_calib), dist = gsub(", NA", "", dist), dist = gsub("FA", "Self", dist)) %>%
+  select(-c(usm_calib, obs_calib))
 
-yield_grabs %>%
-  filter(crop %in% c("Barley", "FA")) %>%
-  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
+yield_grabs_plot <- yield_obs %>%
+  filter(crop == "FA") %>%
+  bind_rows(yield_grabs) %>%
+  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")))
+
+yield_grabs_plot %>%
+  # filter(crop %in% c("Barley", "FA")) %>%
+  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")))) +
   scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
   geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
   geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
   geom_vline(aes(xintercept = 0, colour = "95% CI", group = 1), width = 0.2,) +
-  scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
+  scale_fill_manual(values = c("black", "#00BFC4", "#880f07", "sienna1"), breaks = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")) +
   scale_colour_manual(values = "black", breaks = c("95% CI")) +
   facet_wrap(vars(year), ncol = 2, axes = "all_x") +
   ggtitle(paste0("Estimated Yields (Calibrating LAI + Yield)")) +
-  labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "", colour = "") +
+  labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 24), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 24, face = "bold"))
 
@@ -814,7 +909,7 @@ nee_table %>%
   scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
   facet_wrap(vars(year), ncol = 1, axes = "all_x") +
   ggtitle(paste0("Estimated Net Ecosystem Exchange using LAI + Yield Self-Calibration")) +
-  labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
+  labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
@@ -873,9 +968,9 @@ lai_plot <- lai_plot_df %>%
   ggplot() +
   # scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep) +
   geom_line(aes(date, LAI, colour = interaction(dist))) +
-  facet_wrap(vars(crop), ncol = 2) +
+  facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
   ggtitle(paste0("Average estimated LAI, ", plot_years, ", ", plot_usm_calib, " calibrated")) +
-  labs(y = expression(paste("LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
+  labs(y = expression(paste("Barley LAI (", m^{2}, m^{-2}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution Mean", shape = "Observations") +
   geom_ribbon(aes(date, ymin = LAI_CI_min, ymax = LAI_CI_max, fill = interaction(dist)), alpha = 0.7) +
   geom_point(data = lai_obs[lai_obs$crop %in% plot_crops, ], aes(x = date, y = value, colour = "Observation"), size = 1) +
   geom_errorbar(lai_obs[lai_obs$crop %in% plot_crops, ], mapping = aes(x = date, ymax = value + 1.96 * uncertainty, ymin = value - 1.96 * uncertainty, colour = "Observation"), width = 0.5) +
@@ -905,7 +1000,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop), ncol = 2) +
+  facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, barley growing season ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -939,7 +1034,7 @@ nee_plot <- nee_plot_df %>%
   ggplot() +
   scale_y_continuous(limits = c(-0.47, 0.1), oob = scales::oob_keep) +
   geom_line(aes(date, NEE, colour = dist, linetype = dist)) +
-  facet_wrap(vars(crop), ncol = 2) +
+  facet_wrap(vars(factor(crop, levels = c("Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), ncol = 2) +
   ggtitle(paste0("Average estimated NEE, post-harvest ", plot_years, ", ", plot_usm_calib, " calibrated")) +
   labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, "", d^{-1}, ")")), x = "Date", fill = "95% Confidence Interval", colour = "Distribution", linetype = "Distribution", shape = "Used in Calibration (2020)") +
   geom_ribbon(aes(date, ymin = NEE - 1.96 * NEE_se, ymax = NEE + 1.96 * NEE_se, fill = dist), alpha = 0.7) +
@@ -1031,30 +1126,31 @@ yield_table %>%
 ############# Yield bar plot #############
 yield_table %>%
   filter(crop %in% plot_crops & (obs_calib %in% plot_obs_calib | dist == "Prior")) %>%
-  {
-    if (plot_usm_calib == "Self") {
-      filter(., usm_calib == crop | dist == "Prior")
-    } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
-  } %>%
-  {
-    if (!("Prior" %in% plot_dists)) {
-      filter(., dist != "Prior")
-    } else .
-  } %>%
+  # {
+  #   if (plot_usm_calib == "Self") {
+  #     filter(., usm_calib == crop | dist == "Prior")
+  #   } else filter(., usm_calib == "Barley" | crop == "Barley" | dist == "Prior")
+  # } %>%
+  # {
+  #   if (!("Prior" %in% plot_dists)) {
+  #     filter(., dist != "Prior")
+  #   } else .
+  # } %>%
   rename(value = Yield_mean, uncertainty = Yield_se) %>%
+  mutate(dist = paste0(dist, ", ", usm_calib), dist = gsub(", NA", "", dist), dist = gsub("AA|AC|CI|FA|IR|RC|WC", "Self", dist)) %>%
   select(-c(usm_calib, obs_calib)) %>%
   bind_rows(yield_obs) %>%
-  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior"))) %>%
-  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior")))) +
+  arrange(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC")), factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self"))) %>%
+  ggplot(aes(x = interaction(factor(crop, levels = c("Barley + Herbicide", "Barley", "AA", "AC", "CI", "FA", "IR", "RC", "TG", "WC"))), y = value, fill = factor(dist, levels = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")))) +
   scale_y_continuous(limits = c(0, 4), oob = scales::oob_keep, expand = c(0,0)) +
   geom_bar(position = position_dodge(), stat = "identity", alpha = 0.7) +
   geom_errorbar(aes(ymin = value - 1.96 * uncertainty, ymax = value + 1.96 * uncertainty), width = 0.2, position = position_dodge(0.9)) +
   geom_vline(aes(xintercept = 0, colour = "95% Confidence Interval", group = 1), width = 0.2,) +
-  scale_fill_manual(values = plot_colours[c(3, 1, 2, 4)], breaks = c("Observation", "Prior", "Posterior")) +
+  scale_fill_manual(values = c("black", "#00BFC4", "#880f07", "sienna1"), breaks = c("Observation", "Prior", "Posterior, Barley", "Posterior, Self")) +
   scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
   facet_wrap(vars(year), ncol = 1, axes = "all_x") +
   ggtitle(paste0("Yields, Observed and Estimated with LAI + Yield Self-Calibration")) +
-  labs(y = expression(paste("Yield (t ", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
+  labs(y = expression(paste("Barley yield (t ", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
@@ -1125,7 +1221,7 @@ nee_table %>%
   scale_colour_manual(values = "black", breaks = c("95% Confidence Interval")) +
   facet_wrap(vars(year), ncol = 1, axes = "all_x") +
   ggtitle(paste0("Estimated Net Ecosystem Exchange using LAI + Yield Self-Calibration")) +
-  labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Secondary Crop", fill = "Distribution", colour = "") +
+  labs(y = expression(paste("NEE (t", CO[2], "", ha^{-1}, ")")), x = "Undersown Crop", fill = "Distribution", colour = "") +
   guides(colour = guide_legend(reverse = FALSE), fill = guide_legend(reverse = FALSE), shape = guide_legend(reverse = FALSE)) +
   theme(text = element_text(size = 8), legend.key.size = unit(5, 'mm'), legend.position = "bottom", strip.text = element_text(size = 8))
 
@@ -1239,6 +1335,186 @@ rmse_plot %>%
 ggsave(filename = paste0("Prop_RMSE_plot_2021_flipped_", paste0(plot_crops, collapse = "_"), "_", plot_ens_size, ".pdf"),
        path = manuscript_dir,
        units = "mm", width = 190, height = 65)
+
+
+############################ Evaluation Statistics #############################
+# Calculating evaluation statistics of the posterior analysis vs the default
+# parameters. As I didn't do this earlier I am rerunning the baseline and
+# posterior estimated parameter sets again for ease of use.
+################################################################################
+# Stics Options Set Up
+# Path to the folder containing Stics and workspace/example folders.
+javastics <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2"
+# Path to the workspace containing our weather data and crop initialisations.
+workspace <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_workspace"
+# Path to store simulation results in, while the previous directories must
+# exist, this may be created automatically
+output    <- "/home/bell/Documents/TWINWIN-Intercrop/Stics_v9.2/TWINWIN_output"
+# Set options for stics_wrapper, where is the data (workspace) and where to find
+# the Stics executables (from the base folder of Stics as given by javastics).
+# CORRECTION: SticsOnR states that this should be the workspace folder, but it
+# is actually the out_dir folder from SticsRFiles::gen_usms_xml2txt() (which is
+# used to convert the STICS .xml input files into text files for use with the
+# command-line version of STICS rather than JavaSTICS), running stics_wrapper
+# with the workspace folder leads to no Stics directories being found as they
+# were created in another directory.
+sim_options <- SticsOnR::stics_wrapper_options(javastics = javastics, workspace = output, verbose = FALSE, time_display = FALSE, parallel = FALSE)
+################################################################################
+# Take the posterior parameter estimates from the lai+yield calibration
+obs_vary_analysis <- readRDS(paste0(model_runs_dir,
+                                    "obs_vary_analysis.rds"
+                                    )
+                             ) %>%
+  filter(obs_set == "laiyield")
+
+
+# Calculate the prior estimates based on default parameter values.
+prior_est <- SticsOnR::stics_wrapper(model_options = sim_options,
+                               situation = long_run_usms,
+                               var = c("mafruit", "lai_n", "dltams_n",
+                                       "CO2sol", "MSexporte", "masec_n")
+                               ) %>%
+  pluck(2) %>%
+  data.table::rbindlist(use.names = TRUE, idcol = "usm") %>%
+  pivot_wider(names_from = Plant,
+              values_from = c("mafruit", "lai_n", "dltams_n",
+                              "MSexporte", "masec_n")
+              ) %>%
+  mutate(nee = ifelse((usm %in% c("Barley_sole20_long", "Barley_sole21_long")), CO2sol / 1000 - 0.48 * (44 / 12) * dltams_n_plant_1, CO2sol / 1000 - 0.48 * (44 / 12) * (dltams_n_plant_1 + dltams_n_plant_2)), date = as.Date(Date))%>%
+  filter(date %in% obs_data$date) %>%
+  rename(yield = mafruit_plant_1, GAI = lai_n_plant_1, NEE = nee) %>%
+  pivot_longer(c(yield, GAI, NEE), names_to = "obs") %>%
+  filter(obs == "NEE" & date %in% obs_data$date[which(obs_data$obs == "NEE")] |
+           obs == "GAI" & date %in% obs_data$date[which(obs_data$obs == "GAI")] |
+           obs == "yield" & date %in% obs_data$date[which(obs_data$obs == "yield")]) %>%
+  add_column(calib = "Prior") %>%
+  select(c("usm", "date", "calib", "obs", "value"))
+
+
+# Extract the barley single crop calibration
+barley_calib <- obs_vary_analysis %>%
+  filter(usm == "Barley_sole20_long") %>%
+  pull(var = value)
+names(barley_calib) <- c("adens", "efcroiveg", "vitircarb")
+# Calculate barley calibration posterior for all plot types and years
+barley_calib_est <- SticsOnR::stics_wrapper(model_options = sim_options,
+                                        param_values = barley_calib,
+                                        situation = long_run_usms,
+                                        var = c("mafruit", "lai_n", "dltams_n",
+                                                "CO2sol", "MSexporte", "masec_n")
+                                        ) %>%
+  pluck(2) %>%
+  data.table::rbindlist(use.names = TRUE, idcol = "usm") %>%
+  pivot_wider(names_from = Plant,
+              values_from = c("mafruit", "lai_n", "dltams_n",
+                              "MSexporte", "masec_n")
+  ) %>%
+  mutate(nee = ifelse((usm %in% c("Barley_sole20_long", "Barley_sole21_long")), CO2sol / 1000 - 0.48 * (44 / 12) * dltams_n_plant_1, CO2sol / 1000 - 0.48 * (44 / 12) * (dltams_n_plant_1 + dltams_n_plant_2)), date = as.Date(Date))%>%
+  filter(date %in% obs_data$date) %>%
+  rename(yield = mafruit_plant_1, GAI = lai_n_plant_1, NEE = nee) %>%
+  pivot_longer(c(yield, GAI, NEE), names_to = "obs") %>%
+  filter(obs == "NEE" & date %in% obs_data$date[which(obs_data$obs == "NEE")] |
+           obs == "GAI" & date %in% obs_data$date[which(obs_data$obs == "GAI")] |
+           obs == "yield" & date %in% obs_data$date[which(obs_data$obs == "yield")]) %>%
+  add_column(calib = "Barley") %>%
+  select(c("usm", "date", "calib", "obs", "value"))
+
+# Calculate posteriors for each self-parameterisation
+self_calibs <- obs_vary_analysis %>%
+  filter(usm != "Barley_sole20_long")
+
+self_calib_est <- list()
+for (calib_usm in unique(self_calibs$usm)) {
+  self_calib_params <- self_calibs %>%
+    filter(usm == calib_usm) %>%
+    pull(var = value)
+  names(self_calib_params) <- c("adens", "efcroiveg", "vitircarb")
+
+  # Picking the two USMs with the same undersown species.
+  self_usms <- c(calib_usm, gsub("0", "1", calib_usm))
+
+  self_calib_est[self_usms] <- SticsOnR::stics_wrapper(model_options = sim_options,
+                                              param_values = self_calib_params,
+                                              situation = self_usms,
+                                              var = c("mafruit", "lai_n", "dltams_n",
+                                                      "CO2sol", "MSexporte", "masec_n")
+                                            ) %>%
+    pluck(2)
+}
+
+all_self_calib_est <- self_calib_est %>%
+  data.table::rbindlist(use.names = TRUE, idcol = "usm") %>%
+  pivot_wider(names_from = Plant,
+              values_from = c("mafruit", "lai_n", "dltams_n",
+                              "MSexporte", "masec_n")
+  ) %>%
+  mutate(nee = ifelse((usm %in% c("Barley_sole20_long", "Barley_sole21_long")), CO2sol / 1000 - 0.48 * (44 / 12) * dltams_n_plant_1, CO2sol / 1000 - 0.48 * (44 / 12) * (dltams_n_plant_1 + dltams_n_plant_2)), date = as.Date(Date))%>%
+  filter(date %in% obs_data$date) %>%
+  rename(yield = mafruit_plant_1, GAI = lai_n_plant_1, NEE = nee) %>%
+  pivot_longer(c(yield, GAI, NEE), names_to = "obs") %>%
+  filter(obs == "NEE" & date %in% obs_data$date[which(obs_data$obs == "NEE")] |
+           obs == "GAI" & date %in% obs_data$date[which(obs_data$obs == "GAI")] |
+           obs == "yield" & date %in% obs_data$date[which(obs_data$obs == "yield")]) %>%
+  add_column(calib = "Self") %>%
+  select(c("usm", "date", "calib", "obs", "value"))
+
+# Combining different calibrations into one dataframe.
+all_ests <- prior_est %>%
+  rbind(barley_calib_est) %>%
+  rbind(all_self_calib_est) %>%
+  mutate(year = paste0("20", gsub("[A-z_]", "", usm)),
+         crop = gsub("[Barley_1290long]", "", usm))
+all_ests$crop[all_ests$crop == "s"] <- "Barley"
+
+# Calculate summary statistics
+summary_stats <- all_ests %>%
+  inner_join(obs_data, by = join_by(date, obs, crop), suffix = c("", "_observed")) %>%
+  group_by(crop, calib, year, obs) %>%
+  summarise(RMSE = RMSE(value, value_observed),
+            rRMSE = rRMSE(value, value_observed),
+            R2 = R2(value, value_observed),
+            MAE = MAE(value, value_observed),
+            Bias = Bias(value, value_observed),
+            NSE = NSE(value, value_observed))
+
+# Prepare tables of summary statistics
+rRMSE_calib <- summary_stats %>%
+  filter(year == "2020") %>%
+  ungroup() %>%
+  select(c(crop, calib, obs, rRMSE)) %>%
+  pivot_wider(id_cols = c(obs, calib), names_from = crop, values_from = rRMSE) %>%
+  relocate(Barley, .after = calib) %>%
+  arrange(factor(obs, levels = c("GAI", "NEE", "yield")), factor(calib, levels = c("Prior", "Barley", "Self"))) %>%
+  rename(Observation = obs, Calibration = calib) %>%
+  mutate(across(3:10, round, 2))
+
+stargazer::stargazer(rRMSE_calib, type = "text", summary = FALSE, rownames = FALSE, out = paste0(manuscript_dir, "rRMSE_table_calibration_data", c(".tex", ".txt")))
+
+rRMSE_valid <- summary_stats %>%
+  filter(year == "2021") %>%
+  ungroup() %>%
+  select(c(crop, calib, obs, rRMSE)) %>%
+  pivot_wider(id_cols = c(obs, calib), names_from = crop, values_from = rRMSE) %>%
+  relocate(Barley, .after = calib) %>%
+  arrange(factor(obs, levels = c("GAI", "NEE", "yield")), factor(calib, levels = c("Prior", "Barley", "Self"))) %>%
+  rename(Observation = obs, Calibration = calib) %>%
+  mutate(across(3:10, round, 2))
+
+stargazer::stargazer(rRMSE_valid, type = "text", summary = FALSE, rownames = FALSE, out = paste0(manuscript_dir, "rRMSE_table_validation_data", c(".tex", ".txt")))
+
+
+undersown_rRMSE <- all_ests %>%
+  inner_join(obs_data, by = join_by(date, obs, crop), suffix = c("", "_observed")) %>%
+  filter(crop != "Barley") %>%
+  group_by(calib, year, obs) %>%
+  summarise(rRMSE = rRMSE(value, value_observed)) %>%
+  pivot_wider(id_cols = c(calib, year), names_from = obs, values_from = rRMSE) %>%
+  arrange(factor(calib, levels = c("Prior", "Barley", "Self"))) %>%
+  rename(Calibration = calib) %>%
+  mutate(across(c(1:3), round, 2))
+
+stargazer::stargazer(undersown_rRMSE, type = "text", summary = FALSE, rownames = FALSE, out = paste0(manuscript_dir, "rRMSE_table_undersown_comp", c(".tex", ".txt")))
+
 
 rm(prior_2021, obs_vary_analysis, obs_vary_draws, twinwin_posterior)
 ################################################################################
